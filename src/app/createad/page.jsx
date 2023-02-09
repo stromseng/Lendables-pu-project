@@ -1,7 +1,15 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import SendIcon from '@mui/icons-material/Send';
-import { Container, Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  Container,
+  Grid,
+  ImageList,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,6 +18,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import ImageListItem from '@mui/material/ImageListItem';
 
 //Import pocketbase
 import pb from '@lib/pocketbase';
@@ -19,6 +28,9 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+
+//My components
+import StandardImageList from './StandardImageList';
 
 //Check user preference for dark mode
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -50,24 +62,21 @@ const pbLogin = async () => {
   console.log(pb.authStore.model.id);
 };
 
-//Create record in pocketbase
-const pbCreateAd = async (data) => {
-  //create record in pocketbase
-  const result = await pb.collection('advertisements').create({
-    title: data.get('title'),
-    description: data.get('description'),
-    price: data.get('price'),
-    seller: pb.authStore.model.id,
-  });
-  return result;
-};
+function srcset(image, size, rows = 1, cols = 1) {
+  return {
+    src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
+    srcSet: `${image}?w=${size * cols}&h=${
+      size * rows
+    }&fit=crop&auto=format&dpr=2 2x`,
+  };
+}
 
 //Component
 export default function Page() {
   const [submitButtonColor, setSubmitButtonColor] = React.useState('primary');
   const [submitButtonText, setSubmitButtonText] = React.useState('Post Ad');
   const [record, setRecord] = React.useState();
-  const [selectedFile, setSelectedFile] = React.useState();
+  const [selectedFiles, setSelectedFiles] = React.useState();
   const [preview, setPreview] = React.useState();
   const [errorMessage, setErrorMessage] = React.useState();
 
@@ -78,6 +87,7 @@ export default function Page() {
   const [Price, setPrice] = React.useState('');
   const [Address, setAddress] = React.useState('');
   const [Zipcode, setZipcode] = React.useState('');
+  const [imageUrls, setImageUrls] = React.useState([]);
 
   const setSubmitButtonStyle = (color, text) => {
     setSubmitButtonColor(color);
@@ -86,29 +96,51 @@ export default function Page() {
 
   //Hook to watch for file changes
   React.useEffect(() => {
-    if (!selectedFile) {
+    if (!selectedFiles) {
       setPreview(undefined);
       return;
     }
-    const objectUrl = URL.createObjectURL(selectedFile);
-    setPreview(objectUrl);
 
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [selectedFile]);
+    //For loop over each file
+    let tempArray = [];
+    for (let i = 0; i < selectedFiles.length; i++) {
+      tempArray.push(URL.createObjectURL(selectedFiles[i]));
+    }
+    setImageUrls(tempArray);
+  }, [selectedFiles]);
 
   //Handle file select
-  const onSelectFile = (e) => {
+  const onSelectFiles = (e) => {
     if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(undefined);
+      setSelectedFiles(undefined);
       return;
     }
-    setSelectedFile(e.target.files[0]);
+    setSelectedFiles(e.target.files);
+  };
+
+  const formData = new FormData();
+
+  //Create record in pocketbase
+  const pbCreateAd = async (data) => {
+    //Append form data to formData
+    formData.append('title', data.get('title'));
+    formData.append('description', data.get('description'));
+    formData.append('price', data.get('price'));
+    formData.append('seller', pb.authStore.model.id);
+    formData.append('category', data.get('category'));
+    for (let file of selectedFiles) {
+      formData.append('pictures', file);
+    }
+    //create record in pocketbase
+    const result = await pb.collection('advertisements').create(formData);
+    return result;
   };
 
   //Handle form submit
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log('Form Data:', data);
     console.log('Form Data:', {
       Title: data.get('title'),
       Category: data.get('category'),
@@ -227,7 +259,7 @@ export default function Page() {
                   fullWidth
                   label="Price"
                   type="number"
-                  placeholder="Kr"
+                  placeholder="Kr."
                   required
                   id="price"
                   name="price"
@@ -242,20 +274,13 @@ export default function Page() {
                   component="label"
                   startIcon={<PhotoCamera />}
                 >
-                  Upload Picture
-                  <input type="file" onChange={onSelectFile} hidden />
+                  Upload Pictures
+                  <input type="file" multiple onChange={onSelectFiles} hidden />
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                {selectedFile && (
-                  <Box
-                    component="img"
-                    src={preview}
-                    sx={{
-                      maxWidth: 300,
-                      maxHeight: 300,
-                    }}
-                  ></Box>
+                {selectedFiles && (
+                  <StandardImageList imageUrls={imageUrls}></StandardImageList>
                 )}
               </Grid>
               <Grid item xs={12}>
