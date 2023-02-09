@@ -71,6 +71,14 @@ export default function Page() {
   const [preview, setPreview] = React.useState();
   const [errorMessage, setErrorMessage] = React.useState();
 
+  //Form Hooks
+  const [Title, setTitle] = React.useState('');
+  const [Category, setCategory] = React.useState('');
+  const [Description, setDescription] = React.useState('');
+  const [Price, setPrice] = React.useState('');
+  const [Address, setAddress] = React.useState('');
+  const [Zipcode, setZipcode] = React.useState('');
+
   const setSubmitButtonStyle = (color, text) => {
     setSubmitButtonColor(color);
     setSubmitButtonText(text);
@@ -131,11 +139,8 @@ export default function Page() {
       });
   };
 
-  //Hook for category select, sets category to selected value
-  const [Category, setCategory] = React.useState('');
-
-  const handleChange = (event) => {
-    setCategory(event.target.value);
+  const validateForm = () => {
+    return Title.length > 0 && Description.length > 0 && Price.length > 0;
   };
 
   return (
@@ -175,6 +180,9 @@ export default function Page() {
                   id="title"
                   name="title"
                   label="Title"
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -185,7 +193,9 @@ export default function Page() {
                     id="category"
                     value={Category}
                     label="Category"
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      setCategory(e.target.value);
+                    }}
                     required
                     name="category"
                   >
@@ -204,6 +214,9 @@ export default function Page() {
                   id="description"
                   label="Description"
                   name="description"
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -216,6 +229,9 @@ export default function Page() {
                   required
                   id="price"
                   name="price"
+                  onChange={(e) => {
+                    setPrice(e.target.value);
+                  }}
                 ></TextField>
               </Grid>
               <Grid item xs={12} alignItems="center" justifyContent="center">
@@ -246,6 +262,9 @@ export default function Page() {
                   id="address"
                   name="address"
                   label="Street Address"
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -254,15 +273,20 @@ export default function Page() {
                   id="zipcode"
                   name="zipcode"
                   label="Zipcode"
+                  onChange={(e) => {
+                    setZipcode(e.target.value);
+                  }}
                 />
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item xs={12}>
                 <Button
                   type="submit"
                   variant="contained"
+                  fullWidth
                   color={submitButtonColor}
                   endIcon={<SendIcon />}
+                  disabled={!validateForm()}
                 >
                   {submitButtonText}
                 </Button>
