@@ -20,6 +20,7 @@ import Typography from '@mui/material/Typography';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import SendIcon from '@mui/icons-material/Send';
 
 const theme = createTheme();
 
@@ -120,6 +121,22 @@ export default function Page() {
                 >
                   Upload Picture
                   <input type="file" hidden />
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField fullWidth id="outlined" label="Street Address" />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField fullWidth id="outlined" label="Zipcode" />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  endIcon={<SendIcon />}
+                >
+                  Post ad
                 </Button>
               </Grid>
             </Grid>
