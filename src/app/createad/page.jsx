@@ -15,6 +15,15 @@ import pb from '@lib/pocketbase';
 
 const theme = createTheme();
 
+const pbLogin = async () => {
+  const authData = await pb
+    .collection('users')
+    .authWithPassword('magnus.stromseng@gmail.com', 'asdasdasdasd');
+  console.log(pb.authStore.isValid);
+  console.log(pb.authStore.token);
+  console.log(pb.authStore.model.id);
+};
+
 const createAd = async (data) => {
   try {
     console.log('submitting record to pocketbase');
@@ -25,6 +34,7 @@ const createAd = async (data) => {
       title: data.get('title'),
       description: data.get('description'),
       price: data.get('price'),
+      seller: pb.authStore.model.id,
     });
   } catch (error) {
     return { error: error.message };
@@ -43,6 +53,7 @@ export default function Page() {
       Address: data.get('address'),
       Zipcode: data.get('zipcode'),
     });
+    pbLogin();
     createAd(data);
   };
 
