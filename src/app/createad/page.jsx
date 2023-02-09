@@ -64,11 +64,12 @@ const pbCreateAd = async (data) => {
     console.log(record);
     return record;
   } catch (error) {
+    console.log('Error creating record: ' + error.message);
     return { error: error.message };
   }
 };
 
-//Create ad page
+//Component
 export default function Page() {
   const [submitButtonColor, setSubmitButtonColor] = React.useState('primary');
   const [submitButtonText, setSubmitButtonText] = React.useState('Post Ad');
@@ -110,7 +111,18 @@ export default function Page() {
       Zipcode: data.get('zipcode'),
     });
     pbLogin();
-    setRecord(pbCreateAd(data));
+    pbCreateAd(data).then((record) => {
+      if ('error' in record) {
+        setSubmitButtonColor('error');
+        setSubmitButtonText('Error');
+      } else if ('id' in record) {
+        setSubmitButtonColor('success');
+        setSubmitButtonText('Success');
+      } else {
+        setSubmitButtonColor('primary');
+        setSubmitButtonText('Post Ad');
+      }
+    });
   };
 
   //Hook for category select, sets category to selected value
