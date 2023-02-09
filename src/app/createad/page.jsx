@@ -53,9 +53,6 @@ const pbLogin = async () => {
 //Create record in pocketbase
 const pbCreateAd = async (data) => {
   try {
-    console.log('submitting record to pocketbase');
-    //log data to console
-    console.log(data);
     //create record in pocketbase
     const record = await pb.collection('advertisements').create({
       title: data.get('title'),
@@ -63,6 +60,9 @@ const pbCreateAd = async (data) => {
       price: data.get('price'),
       seller: pb.authStore.model.id,
     });
+    console.log('Success! record created:');
+    console.log(record);
+    return record;
   } catch (error) {
     return { error: error.message };
   }
@@ -70,6 +70,20 @@ const pbCreateAd = async (data) => {
 
 //Create ad page
 export default function Page() {
+  const [submitButtonColor, setSubmitButtonColor] = React.useState('primary');
+  const [submitButtonText, setSubmitButtonText] = React.useState('Post Ad');
+  const [record, setRecord] = React.useState(null);
+
+  React.useEffect(() => {
+    if (record && record.error) {
+      setSubmitButtonColor('error');
+      setSubmitButtonText('Error');
+    } else if (record) {
+      setSubmitButtonColor('success');
+      setSubmitButtonText('Success');
+    }
+  }, [record]);
+
   //Handle form submit
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -83,7 +97,7 @@ export default function Page() {
       Zipcode: data.get('zipcode'),
     });
     pbLogin();
-    pbCreateAd(data);
+    setRecord(pbCreateAd(data));
   };
 
   //Hook for category select, sets category to selected value
@@ -199,10 +213,10 @@ export default function Page() {
                 <Button
                   type="submit"
                   variant="contained"
-                  color="primary"
+                  color={submitButtonColor}
                   endIcon={<SendIcon />}
                 >
-                  Post Ad
+                  {submitButtonText}
                 </Button>
               </Grid>
             </Grid>
