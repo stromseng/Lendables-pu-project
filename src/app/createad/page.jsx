@@ -1,26 +1,15 @@
 'use client';
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import {
-  Container,
-  Divider,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@mui/material';
-import SelectInput from '@mui/material/Select/SelectInput';
-import { SelectUnstyled } from '@mui/base';
-import FormControl from '@mui/material/FormControl';
-import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import TextareaAutosize from '@mui/base/TextareaAutosize';
-
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import SendIcon from '@mui/icons-material/Send';
+import { Container, Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import FormControl from '@mui/material/FormControl';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
 
 const theme = createTheme();
 
@@ -117,13 +106,7 @@ export default function Page() {
                   name="price"
                 ></TextField>
               </Grid>
-              <Grid
-                item
-                xs={12}
-                direction="column"
-                alignItems="center"
-                justifyContent="center"
-              >
+              <Grid item xs={12} alignItems="center" justifyContent="center">
                 <Button
                   variant="outlined"
                   component="label"
