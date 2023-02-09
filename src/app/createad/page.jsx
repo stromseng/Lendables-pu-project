@@ -52,21 +52,14 @@ const pbLogin = async () => {
 
 //Create record in pocketbase
 const pbCreateAd = async (data) => {
-  try {
-    //create record in pocketbase
-    const record = await pb.collection('advertisements').create({
-      title: data.get('title'),
-      description: data.get('description'),
-      price: data.get('price'),
-      seller: pb.authStore.model.id,
-    });
-    console.log('Success! record created:');
-    console.log(record);
-    return record;
-  } catch (error) {
-    console.log('Error creating record: ' + error.message);
-    return { error: error.message };
-  }
+  //create record in pocketbase
+  const result = await pb.collection('advertisements').create({
+    title: data.get('title'),
+    description: data.get('description'),
+    price: data.get('price'),
+    seller: pb.authStore.model.id,
+  });
+  return result;
 };
 
 //Component
@@ -76,6 +69,12 @@ export default function Page() {
   const [record, setRecord] = React.useState();
   const [selectedFile, setSelectedFile] = React.useState();
   const [preview, setPreview] = React.useState();
+  const [errorMessage, setErrorMessage] = React.useState();
+
+  const setSubmitButtonStyle = (color, text) => {
+    setSubmitButtonColor(color);
+    setSubmitButtonText(text);
+  };
 
   //Hook to watch for file changes
   React.useEffect(() => {
@@ -102,7 +101,7 @@ export default function Page() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    console.log('Form Data:', {
       Title: data.get('title'),
       Category: data.get('category'),
       Description: data.get('description'),
@@ -111,18 +110,25 @@ export default function Page() {
       Zipcode: data.get('zipcode'),
     });
     pbLogin();
-    pbCreateAd(data).then((record) => {
-      if ('error' in record) {
-        setSubmitButtonColor('error');
-        setSubmitButtonText('Error');
-      } else if ('id' in record) {
-        setSubmitButtonColor('success');
-        setSubmitButtonText('Success');
-      } else {
-        setSubmitButtonColor('primary');
-        setSubmitButtonText('Post Ad');
-      }
-    });
+    pbCreateAd(data)
+      .then((result) => {
+        // success...
+        console.log('Result:', result);
+        setSubmitButtonStyle('success', 'Success');
+      })
+      .catch((error) => {
+        // error...
+        console.log('Error:', error);
+        console.log('Data:', error.data);
+        let errorMessages = new Set();
+        for (const [key, value] of Object.entries(error.data.data)) {
+          console.log(value.message);
+          errorMessages.add(value.message);
+        }
+        setErrorMessage(errorMessages);
+
+        setSubmitButtonStyle('error', 'Error');
+      });
   };
 
   //Hook for category select, sets category to selected value
@@ -246,7 +252,7 @@ export default function Page() {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item xs={4}>
                 <Button
                   type="submit"
                   variant="contained"
@@ -256,6 +262,11 @@ export default function Page() {
                   {submitButtonText}
                 </Button>
               </Grid>
+              {errorMessage && (
+                <Grid item xs={8}>
+                  {errorMessage}
+                </Grid>
+              )}
             </Grid>
           </Box>
         </Box>
