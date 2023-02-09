@@ -1,5 +1,5 @@
 'use client';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import SendIcon from '@mui/icons-material/Send';
 import { Container, Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
+//Import pocketbase
 import pb from '@lib/pocketbase';
 
 //Import Roboto font
@@ -39,6 +40,7 @@ if (prefersDark) {
   });
 }
 
+//Login to pocketbase
 const pbLogin = async () => {
   const authData = await pb
     .collection('users')
@@ -48,7 +50,8 @@ const pbLogin = async () => {
   console.log(pb.authStore.model.id);
 };
 
-const createAd = async (data) => {
+//Create record in pocketbase
+const pbCreateAd = async (data) => {
   try {
     console.log('submitting record to pocketbase');
     //log data to console
@@ -65,7 +68,9 @@ const createAd = async (data) => {
   }
 };
 
+//Create ad page
 export default function Page() {
+  //Handle form submit
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -78,9 +83,10 @@ export default function Page() {
       Zipcode: data.get('zipcode'),
     });
     pbLogin();
-    createAd(data);
+    pbCreateAd(data);
   };
 
+  //Hook for category select, sets category to selected value
   const [Category, setCategory] = React.useState('');
 
   const handleChange = (event) => {
@@ -88,7 +94,9 @@ export default function Page() {
   };
 
   return (
+    //Modifies theme on all child components
     <ThemeProvider theme={theme}>
+      {/* Centres content horizontally*/}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -164,7 +172,7 @@ export default function Page() {
                 <Button
                   variant="outlined"
                   component="label"
-                  startIcon={<FileUploadIcon />}
+                  startIcon={<PhotoCamera />}
                 >
                   Upload Picture
                   <input type="file" hidden />
@@ -194,7 +202,7 @@ export default function Page() {
                   color="primary"
                   endIcon={<SendIcon />}
                 >
-                  Post ad
+                  Post Ad
                 </Button>
               </Grid>
             </Grid>
