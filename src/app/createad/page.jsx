@@ -180,6 +180,7 @@ export default function Page() {
                   id="title"
                   name="title"
                   label="Title"
+                  helperText="Describe your item in a few words"
                   onChange={(e) => {
                     setTitle(e.target.value);
                   }}
@@ -214,6 +215,7 @@ export default function Page() {
                   id="description"
                   label="Description"
                   name="description"
+                  helperText="Describe your item in detail"
                   onChange={(e) => {
                     setDescription(e.target.value);
                   }}
