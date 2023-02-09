@@ -29,8 +29,12 @@ export default function Page() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      Title: data.get('title'),
+      Category: data.get('category'),
+      Description: data.get('description'),
+      Price: data.get('price'),
+      Address: data.get('address'),
+      Zipcode: data.get('zipcode'),
     });
   };
 
@@ -66,7 +70,9 @@ export default function Page() {
                 <TextField
                   fullWidth
                   required
-                  id="outlined-required"
+                  autoFocus
+                  id="title"
+                  name="title"
                   label="Title"
                 />
               </Grid>
@@ -75,11 +81,12 @@ export default function Page() {
                   <InputLabel id="item-category-label">Category</InputLabel>
                   <Select
                     labelId="item-category-label"
-                    id="item-category"
+                    id="category"
                     value={Category}
                     label="Category"
                     onChange={handleChange}
                     required
+                    name="category"
                   >
                     <MenuItem value="Electronics">Electronics</MenuItem>
                     <MenuItem value="Clothing">Clothing</MenuItem>
@@ -93,8 +100,9 @@ export default function Page() {
                   rows={4}
                   fullWidth
                   required
-                  id="outlined-required"
+                  id="description"
                   label="Description"
+                  name="description"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -105,6 +113,8 @@ export default function Page() {
                   type="number"
                   placeholder="Kr"
                   required
+                  id="price"
+                  name="price"
                 ></TextField>
               </Grid>
               <Grid
@@ -124,14 +134,25 @@ export default function Page() {
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                <TextField fullWidth id="outlined" label="Street Address" />
+                <TextField
+                  fullWidth
+                  id="address"
+                  name="address"
+                  label="Street Address"
+                />
               </Grid>
               <Grid item xs={12}>
-                <TextField fullWidth id="outlined" label="Zipcode" />
+                <TextField
+                  fullWidth
+                  id="zipcode"
+                  name="zipcode"
+                  label="Zipcode"
+                />
               </Grid>
 
               <Grid item xs={12}>
                 <Button
+                  type="submit"
                   variant="contained"
                   color="primary"
                   endIcon={<SendIcon />}
