@@ -1,53 +1,32 @@
-# Utviklingsmiljø setup
-
-## Windows
-### Setup Yarn/NPM
-
-1. Installer [NodeJS](https://nodejs.org/en/download/)
-2. Kjør “`npm install --global yarn`”
-
-### Add next, react i prosjektet
-
-I mappen/repoet for prosjektet kjør `yarn add next react react-dom` også discard git changes for `package.json` og `yarn.lock`.
-
-<br/><br/>
-
-# NEXT
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# README
 
 ## Getting Started
 
-First, run the development server:
+### Pocketbase
+
+To start the local PocketBase server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+# Mac
+./pocketbase serve
+# Windows
+./pocketbase.exe serve
+```
+
+Open [http://127.0.0.1:8090/\_/](http://127.0.0.1:8090/_/) to see the admin page in the browser.
+
+<br/>
+
+### Development server
+
+If any new dependencies has been added, run `yarn` to download the new dependencies.
+
+To start the server run the following command:
+
+```bash
+yarn dev`
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
