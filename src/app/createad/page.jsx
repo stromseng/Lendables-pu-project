@@ -13,6 +13,12 @@ import * as React from 'react';
 
 import pb from '@lib/pocketbase';
 
+//Import Roboto font
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 //Check user preference for dark mode
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 // True if preference is set to dark, false otherwise.
