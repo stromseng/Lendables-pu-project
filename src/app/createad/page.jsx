@@ -11,7 +11,25 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
+import pb from '@lib/pocketbase';
+
 const theme = createTheme();
+
+const createAd = async (data) => {
+  try {
+    console.log('submitting record to pocketbase');
+    //log data to console
+    console.log(data);
+    //create record in pocketbase
+    const record = await pb.collection('advertisements').create({
+      title: data.get('title'),
+      description: data.get('description'),
+      price: data.get('price'),
+    });
+  } catch (error) {
+    return { error: error.message };
+  }
+};
 
 export default function Page() {
   const handleSubmit = (event) => {
@@ -25,6 +43,7 @@ export default function Page() {
       Address: data.get('address'),
       Zipcode: data.get('zipcode'),
     });
+    createAd(data);
   };
 
   const [Category, setCategory] = React.useState('');
