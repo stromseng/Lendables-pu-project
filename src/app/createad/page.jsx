@@ -18,7 +18,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import ImageListItem from '@mui/material/ImageListItem';
 
 //Import pocketbase
 import pb from '@lib/pocketbase';
@@ -61,15 +60,6 @@ const pbLogin = async () => {
   console.log(pb.authStore.token);
   console.log(pb.authStore.model.id);
 };
-
-function srcset(image, size, rows = 1, cols = 1) {
-  return {
-    src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
-    srcSet: `${image}?w=${size * cols}&h=${
-      size * rows
-    }&fit=crop&auto=format&dpr=2 2x`,
-  };
-}
 
 //Component
 export default function Page() {
