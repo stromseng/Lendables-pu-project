@@ -72,17 +72,30 @@ const pbCreateAd = async (data) => {
 export default function Page() {
   const [submitButtonColor, setSubmitButtonColor] = React.useState('primary');
   const [submitButtonText, setSubmitButtonText] = React.useState('Post Ad');
-  const [record, setRecord] = React.useState(null);
+  const [record, setRecord] = React.useState();
+  const [selectedFile, setSelectedFile] = React.useState();
+  const [preview, setPreview] = React.useState();
 
+  //Hook to watch for file changes
   React.useEffect(() => {
-    if (record && record.error) {
-      setSubmitButtonColor('error');
-      setSubmitButtonText('Error');
-    } else if (record) {
-      setSubmitButtonColor('success');
-      setSubmitButtonText('Success');
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
     }
-  }, [record]);
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  //Handle file select
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+    setSelectedFile(e.target.files[0]);
+  };
 
   //Handle form submit
   const handleSubmit = (event) => {
@@ -189,8 +202,20 @@ export default function Page() {
                   startIcon={<PhotoCamera />}
                 >
                   Upload Picture
-                  <input type="file" hidden />
+                  <input type="file" onChange={onSelectFile} hidden />
                 </Button>
+              </Grid>
+              <Grid item xs={12}>
+                {selectedFile && (
+                  <Box
+                    component="img"
+                    src={preview}
+                    sx={{
+                      maxWidth: 300,
+                      maxHeight: 300,
+                    }}
+                  ></Box>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
