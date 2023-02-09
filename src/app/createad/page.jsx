@@ -142,7 +142,7 @@ export default function Page() {
     //Modifies theme on all child components
     <ThemeProvider theme={theme}>
       {/* Centres content horizontally*/}
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="sm">
         <CssBaseline />
         <Box
           sx={{
