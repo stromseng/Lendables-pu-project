@@ -142,11 +142,16 @@ export default function Page() {
     //Modifies theme on all child components
     <ThemeProvider theme={theme}>
       {/* Centres content horizontally*/}
-      <Container component="main" maxWidth="sm">
+      <Container
+        component="main"
+        maxWidth="sm"
+        sx={{ border: 1, borderRadius: 1, borderColor: 'grey.500' }}
+      >
         <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
+            marginBottom: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
