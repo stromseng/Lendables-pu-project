@@ -13,7 +13,25 @@ import * as React from 'react';
 
 import pb from '@lib/pocketbase';
 
-const theme = createTheme();
+//Check user preference for dark mode
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+// True if preference is set to dark, false otherwise.
+
+//Create theme based on user preference
+var theme;
+if (prefersDark) {
+  theme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
+} else {
+  theme = createTheme({
+    palette: {
+      mode: 'light',
+    },
+  });
+}
 
 const pbLogin = async () => {
   const authData = await pb
