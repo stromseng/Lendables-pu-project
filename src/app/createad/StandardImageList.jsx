@@ -3,6 +3,7 @@ import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 
+//Takes in an array of image urls and displays them in an ImageList
 export default function StandardImageList(props) {
   return (
     <ImageList sx={{ maxHeight: 500 }} cols={3} rowHeight={164}>
