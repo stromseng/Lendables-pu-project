@@ -181,8 +181,8 @@ export default function Page() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
-            marginBottom: 8,
+            marginTop: 4,
+            marginBottom: 4,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
