@@ -61,6 +61,25 @@ const pbLogin = async () => {
   console.log(pb.authStore.model.id);
 };
 
+//Create record from form data and selected files
+const pbCreateAd = async (data, selectedFiles) => {
+  const formData = new FormData();
+  //Append form data to formData
+  formData.append('title', data.get('title'));
+  formData.append('description', data.get('description'));
+  formData.append('price', data.get('price'));
+  formData.append('seller', pb.authStore.model.id);
+  formData.append('category', data.get('category'));
+  if (selectedFiles) {
+    for (let file of selectedFiles) {
+      formData.append('pictures', file);
+    }
+  }
+  //Try to create record in pocketbase
+  const result = await pb.collection('advertisements').create(formData);
+  return result;
+};
+
 //Component
 export default function Page() {
   const [submitButtonColor, setSubmitButtonColor] = React.useState('primary');
@@ -108,24 +127,6 @@ export default function Page() {
     setSelectedFiles(e.target.files);
   };
 
-  const formData = new FormData();
-
-  //Create record in pocketbase
-  const pbCreateAd = async (data) => {
-    //Append form data to formData
-    formData.append('title', data.get('title'));
-    formData.append('description', data.get('description'));
-    formData.append('price', data.get('price'));
-    formData.append('seller', pb.authStore.model.id);
-    formData.append('category', data.get('category'));
-    for (let file of selectedFiles) {
-      formData.append('pictures', file);
-    }
-    //create record in pocketbase
-    const result = await pb.collection('advertisements').create(formData);
-    return result;
-  };
-
   //Handle form submit
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -140,7 +141,7 @@ export default function Page() {
       Zipcode: data.get('zipcode'),
     });
     pbLogin();
-    pbCreateAd(data)
+    pbCreateAd(data, selectedFiles)
       .then((result) => {
         // success...
         console.log('Result:', result);
