@@ -176,7 +176,12 @@ export default function Page() {
       <Container
         component="main"
         maxWidth="sm"
-        sx={{ border: 1, borderRadius: 1, borderColor: 'grey.500' }}
+        sx={{
+          border: 1,
+          borderRadius: 1,
+          borderColor: 'grey.500',
+          boxShadow: 1,
+        }}
       >
         <CssBaseline />
         <Box
