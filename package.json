@@ -11,6 +11,9 @@
     "lint:prettier": "prettier '**/*.{js,css,md,ts,tsx}' --check"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.11.8",
     "@next/font": "13.1.6",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
