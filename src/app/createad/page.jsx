@@ -18,6 +18,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import InputAdornment from '@mui/material/InputAdornment';
+import Link from '@mui/material/Link';
 
 //Import pocketbase
 import pb from '@lib/pocketbase';
@@ -83,7 +85,8 @@ const pbCreateAd = async (data, selectedFiles) => {
 //Component
 export default function Page() {
   const [submitButtonColor, setSubmitButtonColor] = React.useState('primary');
-  const [submitButtonText, setSubmitButtonText] = React.useState('Post Ad');
+  const [submitButtonText, setSubmitButtonText] =
+    React.useState('Opprett Annonse');
   const [record, setRecord] = React.useState();
   const [selectedFiles, setSelectedFiles] = React.useState();
   const [preview, setPreview] = React.useState();
@@ -186,7 +189,7 @@ export default function Page() {
           }}
         >
           <Typography component="h1" variant="h5">
-            Create Ad
+            Lag en Annonse
           </Typography>
           <Box
             component="form"
@@ -202,8 +205,8 @@ export default function Page() {
                   autoFocus
                   id="title"
                   name="title"
-                  label="Title"
-                  helperText="Describe your item in a few words"
+                  label="Tittel"
+                  helperText="Beskriv gjenstanden kort og konsist"
                   onChange={(e) => {
                     setTitle(e.target.value);
                   }}
@@ -211,21 +214,21 @@ export default function Page() {
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel id="item-category-label">Category</InputLabel>
+                  <InputLabel id="item-category-label">Kategori</InputLabel>
                   <Select
                     labelId="item-category-label"
                     id="category"
                     value={Category}
-                    label="Category"
+                    label="Kategori"
                     onChange={(e) => {
                       setCategory(e.target.value);
                     }}
                     required
                     name="category"
                   >
-                    <MenuItem value="Electronics">Electronics</MenuItem>
-                    <MenuItem value="Clothing">Clothing</MenuItem>
-                    <MenuItem value="Other">Other</MenuItem>
+                    <MenuItem value="Electronics">Elektronikk</MenuItem>
+                    <MenuItem value="Clothing">Klær</MenuItem>
+                    <MenuItem value="Other">Diverse</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -236,9 +239,9 @@ export default function Page() {
                   fullWidth
                   required
                   id="description"
-                  label="Description"
+                  label="Beskrivelse"
                   name="description"
-                  helperText="Describe your item in detail"
+                  helperText="Beskriv gjenstanden i detalj"
                   onChange={(e) => {
                     setDescription(e.target.value);
                   }}
@@ -248,14 +251,18 @@ export default function Page() {
                 <TextField
                   InputLabelProps={{ shrink: true }}
                   fullWidth
-                  label="Price"
+                  label="Pris"
                   type="number"
-                  placeholder="Kr."
                   required
                   id="price"
                   name="price"
                   onChange={(e) => {
                     setPrice(e.target.value);
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">Kr.</InputAdornment>
+                    ),
                   }}
                 ></TextField>
               </Grid>
@@ -265,7 +272,7 @@ export default function Page() {
                   component="label"
                   startIcon={<PhotoCamera />}
                 >
-                  Upload Pictures
+                  Last opp bilder
                   <input type="file" multiple onChange={onSelectFiles} hidden />
                 </Button>
               </Grid>
@@ -275,11 +282,16 @@ export default function Page() {
                 )}
               </Grid>
               <Grid item xs={12}>
+                <Typography variant="subtitle1" color="initial">
+                  Hvor leier du fra?
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
                 <TextField
                   fullWidth
                   id="address"
                   name="address"
-                  label="Street Address"
+                  label="Gate Adresse"
                   onChange={(e) => {
                     setAddress(e.target.value);
                   }}
@@ -290,7 +302,36 @@ export default function Page() {
                   fullWidth
                   id="zipcode"
                   name="zipcode"
-                  label="Zipcode"
+                  label="Postnummer"
+                  onChange={(e) => {
+                    setZipcode(e.target.value);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="subtitle1" color="initial">
+                  Hvordan kan folk kontakte deg?
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="phone"
+                  name="phone"
+                  label="Telefonnummer"
+                  type="tel"
+                  onChange={(e) => {
+                    setZipcode(e.target.value);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="phone"
+                  name="phone"
+                  label="Epost"
+                  type="email"
                   onChange={(e) => {
                     setZipcode(e.target.value);
                   }}
@@ -314,6 +355,14 @@ export default function Page() {
                   {errorMessage}
                 </Grid>
               )}
+              <Grid display={'flex'} item xs={12} justifyContent={'center'}>
+                <Typography variant="body2" color="initial">
+                  Ved å opprette en annonse aksepterer du våre{' '}
+                  <Link href="#" variant="body2">
+                    vilkår og betingelser.
+                  </Link>
+                </Typography>
+              </Grid>
             </Grid>
           </Box>
         </Box>
