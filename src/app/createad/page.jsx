@@ -48,7 +48,7 @@ if (prefersDark) {
 
 //Login to pocketbase
 const pbLogin = async () => {
-  const authData = await pb
+  await pb
     .collection('users')
     .authWithPassword('magnus.stromseng@gmail.com', 'asdasdasdasd');
   console.log(pb.authStore.isValid);
