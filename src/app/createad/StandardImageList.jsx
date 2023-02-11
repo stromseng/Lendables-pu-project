@@ -1,13 +1,14 @@
-/* eslint-disable @next/next/no-img-element */
 import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import PropTypes from 'prop-types';
 
 //Takes in an array of image urls and displays them in an ImageList
 export default function StandardImageList(props) {
+  const imageUrls = props.imageUrls;
   return (
     <ImageList sx={{ maxHeight: 500 }} cols={3} rowHeight={164}>
-      {props.imageUrls.map((url) => (
+      {imageUrls.map((url) => (
         <ImageListItem key={url}>
           <img
             src={`${url}`}
@@ -25,3 +26,7 @@ export default function StandardImageList(props) {
     </ImageList>
   );
 }
+
+StandardImageList.propTypes = {
+  imageUrls: PropTypes.arrayOf(PropTypes.string).isRequired,
+};

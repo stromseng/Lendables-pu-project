@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import SendIcon from '@mui/icons-material/Send';
