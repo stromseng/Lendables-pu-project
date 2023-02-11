@@ -65,6 +65,8 @@ const pbCreateAd = async (data, selectedFiles) => {
   formData.append('price', data.get('price'));
   formData.append('seller', pb.authStore.model.id);
   formData.append('category', data.get('category'));
+  formData.append('address', data.get('address'));
+  formData.append('zipcode', data.get('zipcode'));
   if (selectedFiles) {
     for (let file of selectedFiles) {
       formData.append('pictures', file);
@@ -80,9 +82,6 @@ export default function Page() {
   const [submitButtonColor, setSubmitButtonColor] = React.useState('primary');
   const [submitButtonText, setSubmitButtonText] =
     React.useState('Opprett Annonse');
-  const [record, setRecord] = React.useState();
-  const [selectedFiles, setSelectedFiles] = React.useState();
-  const [preview, setPreview] = React.useState();
   const [errorMessage, setErrorMessage] = React.useState();
 
   //Form Hooks
@@ -92,6 +91,11 @@ export default function Page() {
   const [Price, setPrice] = React.useState('');
   const [Address, setAddress] = React.useState('');
   const [Zipcode, setZipcode] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [email, setEmail] = React.useState('');
+
+  //File Upload Image Hooks
+  const [selectedFiles, setSelectedFiles] = React.useState();
   const [imageUrls, setImageUrls] = React.useState([]);
 
   const setSubmitButtonStyle = (color, text) => {
@@ -319,7 +323,7 @@ export default function Page() {
                   label="Telefonnummer"
                   type="tel"
                   onChange={(e) => {
-                    setZipcode(e.target.value);
+                    setPhone(e.target.value);
                   }}
                 />
               </Grid>
@@ -331,7 +335,7 @@ export default function Page() {
                   label="Epost"
                   type="email"
                   onChange={(e) => {
-                    setZipcode(e.target.value);
+                    setEmail(e.target.value);
                   }}
                 />
               </Grid>
@@ -343,7 +347,7 @@ export default function Page() {
                   fullWidth
                   color={submitButtonColor}
                   endIcon={<SendIcon />}
-                  disabled={!validateForm()}
+                  disabled={validateForm()}
                 >
                   {submitButtonText}
                 </Button>
