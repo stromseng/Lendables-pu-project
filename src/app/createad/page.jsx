@@ -106,7 +106,6 @@ export default function Page() {
   //Hook to watch for file changes
   React.useEffect(() => {
     if (!selectedFiles) {
-      setPreview(undefined);
       return;
     }
 
