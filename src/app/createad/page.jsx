@@ -22,8 +22,9 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-//My components
+//My imports
 import StandardImageList from './StandardImageList';
+import styles from './styles.module.css';
 
 //Check user preference for dark mode
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -172,207 +173,217 @@ export default function Page() {
 
   return (
     //Modifies theme on all child components
-    <ThemeProvider theme={theme}>
-      {/* Centres content horizontally*/}
-      <Container
-        component="main"
-        maxWidth="sm"
-        sx={{
-          border: 1,
-          borderRadius: 1,
-          borderColor: 'grey.500',
-          boxShadow: 1,
-        }}
-      >
-        <CssBaseline />
-        <Box
+    <Box className={styles.backgroundwave} height="100vh" paddingTop="5vh">
+      <ThemeProvider theme={theme}>
+        {/* Centres content horizontally*/}
+        <Container
+          component="main"
+          maxWidth="sm"
           sx={{
-            marginTop: 4,
-            marginBottom: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            border: 1,
+            borderRadius: 1,
+            borderColor: 'grey.500',
+            boxShadow: 1,
+            bgcolor: 'background.paper',
           }}
         >
-          <Typography component="h1" variant="h5">
-            Lag en Annonse
-          </Typography>
+          <CssBaseline />
           <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
+            sx={{
+              marginTop: 4,
+              marginBottom: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  required
-                  autoFocus
-                  id="title"
-                  name="title"
-                  label="Tittel"
-                  helperText="Beskriv gjenstanden kort og konsist"
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel id="item-category-label">Kategori</InputLabel>
-                  <Select
-                    labelId="item-category-label"
-                    id="category"
-                    value={Category}
-                    label="Kategori"
-                    onChange={(e) => {
-                      setCategory(e.target.value);
-                    }}
+            <Typography component="h1" variant="h5">
+              Lag en Annonse
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 3 }}
+            >
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
                     required
-                    name="category"
-                  >
-                    <MenuItem value="Electronics">Elektronikk</MenuItem>
-                    <MenuItem value="Clothing">Klær</MenuItem>
-                    <MenuItem value="Other">Diverse</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  multiline
-                  rows={4}
-                  fullWidth
-                  required
-                  id="description"
-                  label="Beskrivelse"
-                  name="description"
-                  helperText="Beskriv gjenstanden i detalj"
-                  onChange={(e) => {
-                    setDescription(e.target.value);
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  InputLabelProps={{ shrink: true }}
-                  fullWidth
-                  label="Pris"
-                  type="number"
-                  required
-                  id="price"
-                  name="price"
-                  onChange={(e) => {
-                    setPrice(e.target.value);
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">Kr.</InputAdornment>
-                    ),
-                  }}
-                ></TextField>
-              </Grid>
-              <Grid item xs={12} alignItems="center" justifyContent="center">
-                <Button
-                  variant="outlined"
-                  component="label"
-                  startIcon={<PhotoCamera />}
-                >
-                  Last opp bilder
-                  <input type="file" multiple onChange={onSelectFiles} hidden />
-                </Button>
-              </Grid>
-              <Grid item xs={12}>
-                {selectedFiles && (
-                  <StandardImageList imageUrls={imageUrls}></StandardImageList>
-                )}
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="subtitle1" color="initial">
-                  Hvor leier du fra?
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="address"
-                  name="address"
-                  label="Gate Adresse"
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="zipcode"
-                  name="zipcode"
-                  label="Postnummer"
-                  onChange={(e) => {
-                    setZipcode(e.target.value);
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="subtitle1" color="initial">
-                  Hvordan kan folk kontakte deg?
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="phone"
-                  name="phone"
-                  label="Telefonnummer"
-                  type="tel"
-                  onChange={(e) => {
-                    setPhone(e.target.value);
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="phone"
-                  name="phone"
-                  label="Epost"
-                  type="email"
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  fullWidth
-                  color={submitButtonColor}
-                  endIcon={<SendIcon />}
-                  disabled={validateForm()}
-                >
-                  {submitButtonText}
-                </Button>
-              </Grid>
-              {errorMessage && (
-                <Grid item xs={8}>
-                  {errorMessage}
+                    autoFocus
+                    id="title"
+                    name="title"
+                    label="Tittel"
+                    helperText="Beskriv gjenstanden kort og konsist"
+                    onChange={(e) => {
+                      setTitle(e.target.value);
+                    }}
+                  />
                 </Grid>
-              )}
-              <Grid display={'flex'} item xs={12} justifyContent={'center'}>
-                <Typography variant="body2" color="initial">
-                  Ved å opprette en annonse aksepterer du våre{' '}
-                  <Link href="#" variant="body2">
-                    vilkår og betingelser.
-                  </Link>
-                </Typography>
+                <Grid item xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="item-category-label">Kategori</InputLabel>
+                    <Select
+                      labelId="item-category-label"
+                      id="category"
+                      value={Category}
+                      label="Kategori"
+                      onChange={(e) => {
+                        setCategory(e.target.value);
+                      }}
+                      required
+                      name="category"
+                    >
+                      <MenuItem value="Electronics">Elektronikk</MenuItem>
+                      <MenuItem value="Clothing">Klær</MenuItem>
+                      <MenuItem value="Other">Diverse</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    multiline
+                    rows={4}
+                    fullWidth
+                    required
+                    id="description"
+                    label="Beskrivelse"
+                    name="description"
+                    helperText="Beskriv gjenstanden i detalj"
+                    onChange={(e) => {
+                      setDescription(e.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    label="Pris"
+                    type="number"
+                    required
+                    id="price"
+                    name="price"
+                    onChange={(e) => {
+                      setPrice(e.target.value);
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">Kr.</InputAdornment>
+                      ),
+                    }}
+                  ></TextField>
+                </Grid>
+                <Grid item xs={12} alignItems="center" justifyContent="center">
+                  <Button
+                    variant="outlined"
+                    component="label"
+                    startIcon={<PhotoCamera />}
+                  >
+                    Last opp bilder
+                    <input
+                      type="file"
+                      multiple
+                      onChange={onSelectFiles}
+                      hidden
+                    />
+                  </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  {selectedFiles && (
+                    <StandardImageList
+                      imageUrls={imageUrls}
+                    ></StandardImageList>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1" color="initial">
+                    Hvor leier du fra?
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="address"
+                    name="address"
+                    label="Gate Adresse"
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="zipcode"
+                    name="zipcode"
+                    label="Postnummer"
+                    onChange={(e) => {
+                      setZipcode(e.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1" color="initial">
+                    Hvordan kan folk kontakte deg?
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="phone"
+                    name="phone"
+                    label="Telefonnummer"
+                    type="tel"
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="phone"
+                    name="phone"
+                    label="Epost"
+                    type="email"
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    fullWidth
+                    color={submitButtonColor}
+                    endIcon={<SendIcon />}
+                    disabled={validateForm()}
+                  >
+                    {submitButtonText}
+                  </Button>
+                </Grid>
+                {errorMessage && (
+                  <Grid item xs={8}>
+                    {errorMessage}
+                  </Grid>
+                )}
+                <Grid display={'flex'} item xs={12} justifyContent={'center'}>
+                  <Typography variant="body2" color="initial">
+                    Ved å opprette en annonse aksepterer du våre{' '}
+                    <Link href="#" variant="body2">
+                      vilkår og betingelser.
+                    </Link>
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+        </Container>
+      </ThemeProvider>
+    </Box>
   );
 }
