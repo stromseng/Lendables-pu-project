@@ -88,9 +88,15 @@ export default function Page() {
   const [Category, setCategory] = React.useState('');
   const [Description, setDescription] = React.useState('');
   const [Price, setPrice] = React.useState('');
+
+  //Unused form hooks for now (will be used later when implementing proper form validation)
+  // eslint-disable-next-line no-unused-vars
   const [Address, setAddress] = React.useState('');
+  // eslint-disable-next-line no-unused-vars
   const [Zipcode, setZipcode] = React.useState('');
+  // eslint-disable-next-line no-unused-vars
   const [phone, setPhone] = React.useState('');
+  // eslint-disable-next-line no-unused-vars
   const [email, setEmail] = React.useState('');
 
   //File Upload Image Hooks
