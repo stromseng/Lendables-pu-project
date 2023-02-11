@@ -149,8 +149,8 @@ export default function Page() {
         console.log('Data:', error.data);
         let errorMessages = new Set();
         for (const [key, value] of Object.entries(error.data.data)) {
-          console.log(value.message);
-          errorMessages.add(value.message);
+          console.log(key, value.message);
+          errorMessages.add(key + ':' + value.message + ' ');
         }
         setErrorMessage(errorMessages);
 
