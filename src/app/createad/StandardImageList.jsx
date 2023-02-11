@@ -13,7 +13,7 @@ export default function StandardImageList(props) {
           <img
             src={`${url}`}
             srcSet={`${url}`}
-            alt=""
+            alt="Uploaded image from user"
             loading="lazy"
             style={{
               width: 164,
