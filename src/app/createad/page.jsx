@@ -181,7 +181,7 @@ export default function Page() {
           maxWidth="sm"
           sx={{
             border: 1,
-            borderRadius: 1,
+            borderRadius: 3,
             borderColor: 'grey.500',
             boxShadow: 1,
             bgcolor: 'background.paper',
