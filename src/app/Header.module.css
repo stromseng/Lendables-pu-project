@@ -1,0 +1,36 @@
+.navBar {
+    width: 100%;
+    background-color: white;
+    color: rgb(60, 60, 60);
+    border-color: grey;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0rem 1rem;
+    
+}
+
+.navBar li {
+    list-style: none;
+    align-items: center;
+    margin: 0px 10px;
+}
+
+
+.navBar ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navBar ul li a{
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+}
+
+.navBar .icon{
+    margin: 0px 3px;
+}
