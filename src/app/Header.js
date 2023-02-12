@@ -1,6 +1,8 @@
 'use client';
 
 import styles from './Header.module.css';
+import pb from 'src/app/(lib)/pocketbase.js';
+import { useState } from 'react';
 
 export default function Header() {
   return (
@@ -15,7 +17,7 @@ export default function Header() {
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
             />
-            <span class="material-symbols-outlined icon">search</span>Søk
+            <span className="material-symbols-outlined icon">search</span>Søk
           </a>
         </li>
         <li>
@@ -24,7 +26,7 @@ export default function Header() {
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
             />
-            <span class="material-symbols-outlined icon">add_circle</span>Ny
+            <span className="material-symbols-outlined icon">add_circle</span>Ny
             annonse
           </a>
         </li>
@@ -34,8 +36,10 @@ export default function Header() {
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,1,0"
             />
-            <span class="material-symbols-outlined icon">account_circle</span>
-            Log in
+            <span className="material-symbols-outlined icon">
+              account_circle
+            </span>
+            {pb.authStore.isValid ? pb.authStore.model.username : 'Log inn'}
           </a>
         </li>
       </ul>
