@@ -15,7 +15,10 @@ export default function Header() {
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
             />
-            <span class="material-symbols-outlined icon">search</span>Søk
+            <span className={`${styles.icon} material-symbols-outlined`}>
+              search
+            </span>
+            Søk
           </a>
         </li>
         <li>
@@ -24,8 +27,10 @@ export default function Header() {
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
             />
-            <span class="material-symbols-outlined icon">add_circle</span>Ny
-            annonse
+            <span className={`${styles.icon} material-symbols-outlined`}>
+              add_circle
+            </span>
+            Ny annonse
           </a>
         </li>
         <li>
@@ -34,8 +39,10 @@ export default function Header() {
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,1,0"
             />
-            <span class="material-symbols-outlined icon">account_circle</span>
-            Log in
+            <span className={`${styles.icon} material-symbols-outlined`}>
+              account_circle
+            </span>
+            Log inn
           </a>
         </li>
       </ul>
