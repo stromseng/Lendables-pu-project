@@ -17,7 +17,10 @@ export default function Header() {
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
             />
-            <span className="material-symbols-outlined icon">search</span>Søk
+            <span className={`${styles.icon} material-symbols-outlined`}>
+              search
+            </span>
+            Søk
           </a>
         </li>
         <li>
@@ -26,8 +29,10 @@ export default function Header() {
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
             />
-            <span className="material-symbols-outlined icon">add_circle</span>Ny
-            annonse
+            <span className={`${styles.icon} material-symbols-outlined`}>
+              add_circle
+            </span>
+            Ny annonse
           </a>
         </li>
         <li>
@@ -36,10 +41,10 @@ export default function Header() {
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,1,0"
             />
-            <span className="material-symbols-outlined icon">
+            <span className={`${styles.icon} material-symbols-outlined`}>
               account_circle
             </span>
-            {pb.authStore.isValid ? pb.authStore.model.username : 'Log inn'}
+            Log inn
           </a>
         </li>
       </ul>
