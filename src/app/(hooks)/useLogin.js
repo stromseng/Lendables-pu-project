@@ -12,7 +12,6 @@ export default function useLogin() {
       const authData = await pb
         .collection('users')
         .authWithPassword(email, password);
-      console.log(authData);
       setError(false);
     } catch (e) {
       setError(true);
