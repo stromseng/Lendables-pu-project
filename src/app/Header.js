@@ -1,5 +1,6 @@
 'use client';
 
+import pb from './(lib)/pocketbase';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -42,7 +43,7 @@ export default function Header() {
             <span className={`${styles.icon} material-symbols-outlined`}>
               account_circle
             </span>
-            Log inn
+            {pb.authStore.isValid ? pb.authStore.model.username : 'Log in'}
           </a>
         </li>
       </ul>
