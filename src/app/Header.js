@@ -1,17 +1,30 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import pb from './(lib)/pocketbase';
 import styles from './Header.module.css';
+import Link from 'next/link';
 
 export default function Header() {
+  const [username, setUsername] = useState();
+
+  useEffect(() => {
+    setUsername(pb.authStore.model?.username);
+  }, []);
+
+  const removeListener = pb.authStore.onChange((token, model) => {
+    console.log('New user:' + model);
+    setUsername(model?.username);
+  });
+
   return (
     <nav className={styles.navBar}>
-      <a href="/">
+      <Link href="/">
         <h2>NettVerkTøy</h2>
-      </a>
+      </Link>
       <ul>
         <li>
-          <a href="/ads">
+          <Link href="/ads">
             <link
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
@@ -20,10 +33,10 @@ export default function Header() {
               search
             </span>
             Søk
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/">
+          <Link href="/">
             <link
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
@@ -32,10 +45,10 @@ export default function Header() {
               add_circle
             </span>
             Ny annonse
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/login">
+          <Link href="/login">
             <link
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,1,0"
@@ -43,8 +56,8 @@ export default function Header() {
             <span className={`${styles.icon} material-symbols-outlined`}>
               account_circle
             </span>
-            {pb.authStore.isValid ? pb.authStore.model.username : 'Log in'}
-          </a>
+            {username ?? 'Log in'}
+          </Link>
         </li>
       </ul>
     </nav>
