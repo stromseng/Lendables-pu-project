@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import pb from './(lib)/pocketbase';
 import styles from './Header.module.css';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Header() {
   const [username, setUsername] = useState();
@@ -13,14 +14,13 @@ export default function Header() {
   }, []);
 
   const removeListener = pb.authStore.onChange((token, model) => {
-    console.log('New user:' + model);
     setUsername(model?.username);
   });
 
   return (
     <nav className={styles.navBar}>
       <Link href="/">
-        <h2>NettVerkTøy</h2>
+        <Image src="/Lendables_light.png" height={60} width={180} />
       </Link>
       <ul>
         <li>
