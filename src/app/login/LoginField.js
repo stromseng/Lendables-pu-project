@@ -1,17 +1,22 @@
 'use client';
 
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import pb from 'src/app/(lib)/pocketbase.js';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
 import useLogin from '../(hooks)/useLogin';
 import useLogout from '../(hooks)/useLogout';
+import { useRouter } from 'next/navigation';
+import {
+  Body,
+  Button,
+  Card,
+  Loading,
+  Input,
+  Text,
+  Spacer,
+} from '@nextui-org/react';
 
 export default function LoginField() {
+  const router = useRouter();
   const logout = useLogout();
   const { login, isLoading, isError } = useLogin();
   const { register, handleSubmit, reset } = useForm();
@@ -28,7 +33,7 @@ export default function LoginField() {
           variant="outlined"
           color="error"
           style={{ margin: 'auto' }}
-          onClick={logout}
+          onPress={logout}
         >
           Log out
         </Button>
@@ -46,36 +51,61 @@ export default function LoginField() {
           minWidth: '300px',
         }}
       >
-        <Card>
-          <CardContent
-            style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+        <Card variant="flat">
+          <Card.Body
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '20px',
+              padding: '20px',
+            }}
           >
-            <Typography sx={{ fontWeight: 'bold' }} variant="h5">
-              Logg inn
-            </Typography>
-            <TextField
+            <Text h2 style={{ margin: '0rem' }}>
+              Log In
+            </Text>
+            <Input
               id="username"
+              clearable
+              bordered
               label="Username"
-              type="search"
               {...register('email')}
             />
-            <TextField
+            <Input.Password
               id="outlined-password-input"
+              bordered
               label="Password"
               type="password"
               autoComplete="current-password"
               {...register('password')}
             />
             {isError && (
-              <p style={{ color: 'red', fontSize: '12px', margin: '0rem' }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: 'red',
+                  fontSize: '13px',
+                  margin: '0rem',
+                }}
+              >
                 Invalid username or password
-              </p>
+              </Text>
             )}
-            <Button variant="contained" type="submit" disabled={isLoading}>
-              {isLoading ? 'Loading...' : 'Log Inn'}
+            <Button type="submit" disabled={isLoading} color="success">
+              {isLoading ? (
+                <Loading type="points" color="currentColor" size="sm" />
+              ) : (
+                'Log In'
+              )}
             </Button>
-            <Button variant="text">Registrer ny bruker</Button>
-          </CardContent>
+            <Button
+              light
+              onPress={() => {
+                router.push('/login/register');
+              }}
+            >
+              Create a new account
+            </Button>
+          </Card.Body>
         </Card>
       </form>
     </>
