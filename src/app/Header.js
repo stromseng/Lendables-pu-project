@@ -20,11 +20,16 @@ export default function Header() {
   return (
     <nav className={styles.navBar}>
       <Link href="/">
-        <Image src="/Lendables_light.png" height={60} width={180} />
+        <Image
+          src="/Lendables_light.png"
+          height={60}
+          width={180}
+          alt={'logo'}
+        />
       </Link>
       <ul>
         <li>
-          <Link href="/ads">
+          <Link href="/posts">
             <link
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
