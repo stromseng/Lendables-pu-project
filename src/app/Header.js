@@ -22,7 +22,7 @@ export default function Header() {
       <Link href="/">
         <Image
           src="/Lendables_light.png"
-          height={60}
+          height={52}
           width={180}
           alt={'logo'}
         />

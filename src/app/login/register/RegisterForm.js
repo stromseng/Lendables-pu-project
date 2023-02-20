@@ -26,7 +26,7 @@ export default function RegisterForm() {
         setPBerror(e);
       } else {
         reset();
-        router.push('/ads');
+        router.push('/posts');
       }
     });
   }
