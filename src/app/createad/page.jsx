@@ -14,7 +14,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Link from '@mui/material/Link';
 
 //Import pocketbase
-import pb from '@lib/pocketbase';
+import pb from 'src/app/(lib)/pocketbase.js';
 
 //Import Roboto font
 import '@fontsource/roboto/300.css';
@@ -340,7 +340,7 @@ export default function Page() {
                   fullWidth
                   color={submitButtonColor}
                   endIcon={<SendIcon />}
-                  disabled={validateForm()}
+                  disabled={!validateForm()}
                 >
                   {submitButtonText}
                 </Button>
