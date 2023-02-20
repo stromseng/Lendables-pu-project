@@ -1,15 +1,11 @@
 import './globals.css';
-import Header from './Header';
-import PageLayout from './(components)/PageLayout';
+import Providers from './Providers';
 
 export default function RootLayout({ children }) {
   return (
     <html>
       <body>
-        <Header />
-        <PageLayout>
-          <main>{children}</main>
-        </PageLayout>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
