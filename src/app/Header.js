@@ -41,7 +41,7 @@ export default function Header() {
           </Link>
         </li>
         <li>
-          <Link href="/">
+          <Link href="/createad">
             <link
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
