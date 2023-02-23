@@ -56,6 +56,8 @@ const pbCreateAd = async (data, selectedFiles) => {
   formData.append('category', data.get('category'));
   formData.append('address', data.get('address'));
   formData.append('zipcode', data.get('zipcode'));
+  formData.append('phone', data.get('phone'));
+  formData.append('email', data.get('email'));
   if (selectedFiles) {
     for (let file of selectedFiles) {
       formData.append('pictures', file);
@@ -81,9 +83,9 @@ export default function Page() {
 
   //Unused form hooks for now (will be used later when implementing proper form validation)
   // eslint-disable-next-line no-unused-vars
-  const [Address, setAddress] = React.useState('');
+  const [address, setAddress] = React.useState('');
   // eslint-disable-next-line no-unused-vars
-  const [Zipcode, setZipcode] = React.useState('');
+  const [zipcode, setZipcode] = React.useState('');
   // eslint-disable-next-line no-unused-vars
   const [phone, setPhone] = React.useState('');
   // eslint-disable-next-line no-unused-vars
@@ -125,19 +127,22 @@ export default function Page() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log('Form Data:', data);
-    console.log('Form Data:', {
+    console.log('Form Data1:', data);
+    console.log('Form Data2:', {
       Title: data.get('title'),
       Category: data.get('category'),
       Description: data.get('description'),
       Price: data.get('price'),
       Address: data.get('address'),
       Zipcode: data.get('zipcode'),
+      Phone: data.get('phone'),
+      Email: data.get('email'),
+      Pictures: selectedFiles,
     });
     pbCreateAd(data, selectedFiles)
       .then((result) => {
         // success...
-        console.log('Result:', result);
+        console.log('PB Result:', result);
         setSubmitButtonStyle('success', 'Success');
       })
       .catch((error) => {
@@ -323,8 +328,8 @@ export default function Page() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  id="phone"
-                  name="phone"
+                  id="email"
+                  name="email"
                   label="Epost"
                   type="email"
                   onChange={(e) => {
