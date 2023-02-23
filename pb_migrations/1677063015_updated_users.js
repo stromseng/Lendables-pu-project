@@ -1,21 +1,20 @@
 migrate(
   (db) => {
     const dao = new Dao(db);
-    const collection = dao.findCollectionByNameOrId('4z1poad6ycsuu5k');
+    const collection = dao.findCollectionByNameOrId('_pb_users_auth_');
 
     // add
     collection.schema.addField(
       new SchemaField({
         system: false,
-        id: 'xslw7wnd',
-        name: 'description',
-        type: 'text',
-        required: false,
+        id: 'r85mnbfj',
+        name: 'telephone_number',
+        type: 'number',
+        required: true,
         unique: false,
         options: {
-          min: null,
-          max: null,
-          pattern: '',
+          min: 0,
+          max: 99999999,
         },
       })
     );
@@ -24,10 +23,10 @@ migrate(
   },
   (db) => {
     const dao = new Dao(db);
-    const collection = dao.findCollectionByNameOrId('4z1poad6ycsuu5k');
+    const collection = dao.findCollectionByNameOrId('_pb_users_auth_');
 
     // remove
-    collection.schema.removeField('xslw7wnd');
+    collection.schema.removeField('r85mnbfj');
 
     return dao.saveCollection(collection);
   }
