@@ -5,7 +5,7 @@ export default function usePosts() {
     const data = await pb
       .collection('advertisements')
       .getFullList(200 /* batch size */, {
-        sort: '-created',
+        expand: 'seller',
       });
     return data;
   }
