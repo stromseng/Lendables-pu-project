@@ -1,44 +1,10 @@
-.navBar {
-  width: 100%;
-  background-color: white;
-  color: rgb(60, 60, 60);
-  border-color: grey;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0rem 1rem;
-  height: 65px;
-}
-
-.navBar li {
-  list-style: none;
-  align-items: center;
-  margin: 0px 10px;
-  border-width: 2px;
-  border-color: rgba(0, 0, 0, 0);
-  border-style: solid;
-}
-
-.navBar li:hover {
-  border-bottom-color: rgb(89, 114, 32);
-}
-
-.navBar ul {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0px;
-}
-
 .navBar a {
-  text-transform: capitalize;
-  display: flex;
-  align-items: center;
-  height: 65px;
+    display: flex;
+    align-items: center;
+    height: 65px;
 }
-
-.icon {
-  margin: 0px 3px;
+  
+.icon{
+    margin: 0px 3px;
 }
+  
