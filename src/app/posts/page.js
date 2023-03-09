@@ -1,14 +1,19 @@
-import Post from './Post';
-import PageLayout from '../(components)/PageLayout';
 import Posts from './Posts';
-import pb from '../(lib)/pocketbase';
-import Title from '../(components)/Title';
+import Searchbar from './Searchbar';
 
 export default function PostsPage() {
   return (
     <>
-      <Title>Here are all the posts posted</Title>
+      <Searchbar />
+      <hr
+        style={{
+          color: 'lightgrey',
+          height: '1px',
+          width: '1200px',
+        }}
+      />
       <Posts />
     </>
   );
 }
+
