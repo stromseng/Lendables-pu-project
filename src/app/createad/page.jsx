@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import InputAdornment from '@mui/material/InputAdornment';
 import Link from '@mui/material/Link';
+import { useRouter } from 'next/navigation';
 
 //Import pocketbase
 import pb from 'src/app/(lib)/pocketbase.js';
@@ -70,6 +71,7 @@ const pbCreateAd = async (data, selectedFiles) => {
 
 //Component
 export default function Page() {
+  const router = useRouter();
   const [submitButtonColor, setSubmitButtonColor] = React.useState('primary');
   const [submitButtonText, setSubmitButtonText] =
     React.useState('Opprett Annonse');
@@ -144,6 +146,7 @@ export default function Page() {
         // success...
         console.log('PB Result:', result);
         setSubmitButtonStyle('success', 'Success');
+        router.push('/posts');
       })
       .catch((error) => {
         // error...
