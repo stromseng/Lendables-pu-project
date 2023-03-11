@@ -7,11 +7,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Dropdown, Navbar, User, Text } from '@nextui-org/react';
 import useLogout from './(hooks)/useLogout';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const logout = useLogout();
   const [username, setUsername] = useState();
   const [avatar, setAvatar] = useState();
+  const router = useRouter();
 
   const [activePage, setActivePage] = useState(0);
 
@@ -31,12 +33,17 @@ export default function Header() {
       });
   } catch (error) {}
 
+  function handleLogOut() {
+    logout();
+    router.push('/login');
+  }
+
   return (
     <Navbar className={styles.navBar}>
       <Navbar.Brand>
         <Link href="/">
           <Image
-            onClick={(e) => {
+            onPress={(e) => {
               setActivePage(0);
             }}
             src="/Lendables_light.png"
@@ -94,7 +101,7 @@ export default function Header() {
             </Navbar.Item>
             <Dropdown.Menu
               onAction={(key) => {
-                key == 'logout' && logout();
+                key == 'logout' && handleLogOut();
               }}
             >
               <Dropdown.Item key="account" css={{ height: '$18' }}>
