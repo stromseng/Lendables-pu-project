@@ -24,6 +24,7 @@ export default function RegisterForm() {
     registerUser(data).then((e) => {
       if (e) {
         setPBerror(e);
+        console.log(e);
       } else {
         reset();
         router.push('/posts');

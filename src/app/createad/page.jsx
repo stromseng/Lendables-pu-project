@@ -27,7 +27,8 @@ import '@fontsource/roboto/700.css';
 import StandardImageList from './StandardImageList';
 
 //Check user preference for dark mode
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+// const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const prefersDark = false;
 // True if preference is set to dark, false otherwise.
 
 //Create theme based on user preference
@@ -181,7 +182,6 @@ export default function Page() {
           boxShadow: 1,
         }}
       >
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 4,

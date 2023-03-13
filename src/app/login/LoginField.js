@@ -14,6 +14,7 @@ import {
   Text,
   Spacer,
 } from '@nextui-org/react';
+import { useEffect } from 'react';
 
 export default function LoginField() {
   const router = useRouter();
@@ -22,23 +23,16 @@ export default function LoginField() {
   const { register, handleSubmit, reset } = useForm();
 
   async function onSubmit(data) {
-    login({ email: data.email, password: data.password });
+    login({ email: data.email, password: data.password }).then((error) => {
+      !error && router.push('/posts');
+    });
     reset();
   }
 
-  if (pb.authStore.isValid)
-    return (
-      <>
-        <Button
-          variant="outlined"
-          color="error"
-          style={{ margin: 'auto' }}
-          onPress={logout}
-        >
-          Log out
-        </Button>
-      </>
-    );
+  //Return to post if user already is logged in
+  useEffect(() => {
+    pb.authStore.isValid && router.push('/posts');
+  }, []);
 
   return (
     <>
