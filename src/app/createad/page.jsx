@@ -182,7 +182,6 @@ export default function Page() {
           boxShadow: 1,
         }}
       >
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 4,

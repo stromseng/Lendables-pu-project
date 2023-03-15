@@ -2,14 +2,17 @@
 import { NextUIProvider } from '@nextui-org/react';
 import PageLayout from './(components)/PageLayout';
 import Header from './Header';
+import { SSRProvider } from '@react-aria/ssr';
 
 export default function Providers({ children }) {
   return (
-    <NextUIProvider disableBaseline={true}>
-      <Header />
-      <PageLayout>
-        <main>{children}</main>
-      </PageLayout>
-    </NextUIProvider>
+    <SSRProvider>
+      <NextUIProvider disableBaseline={true}>
+        <Header />
+        <PageLayout>
+          <main>{children}</main>
+        </PageLayout>
+      </NextUIProvider>
+    </SSRProvider>
   );
 }

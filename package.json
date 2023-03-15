@@ -1,41 +1,41 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "prettier": "prettier '**/*.{js,ts,tsx,css,md,yml}' --write",
-    "lint:prettier": "prettier '**/*.{js,css,md,ts,tsx}' --check"
-  },
-  "dependencies": {
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
-    "@fontsource/roboto": "^4.5.8",
-    "@mui/icons-material": "^5.11.0",
-    "@mui/material": "^5.11.12",
-    "@mui/x-date-pickers": "^6.0.1",
-    "@next/font": "13.1.6",
-    "@nextui-org/react": "^1.0.0-beta.12",
-    "@react-google-maps/api": "^2.18.1",
-    "date-fns": "^2.29.3",
-    "dayjs": "^1.11.7",
-    "eslint": "8.33.0",
-    "eslint-config-next": "13.1.6",
-    "google-map-react": "^2.2.0",
-    "next": "13.1.6",
-    "pocketbase": "^0.10.1",
-    "react": "18.2.0",
-    "react-date-range": "^1.4.0",
-    "react-dom": "18.2.0",
-    "react-google-maps": "^9.4.5",
-    "react-hook-form": "^7.43.1",
-    "react-query": "^3.39.3",
-    "styled-components": "^5.3.8"
-  },
-  "devDependencies": {
-    "prettier": "2.8.4"
-  }
+    "name": "my-app",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "prettier": "prettier '**/*.{js,ts,tsx,css,md,yml}' --write",
+        "lint:prettier": "prettier '**/*.{js,css,md,ts,tsx}' --check"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.10.6",
+        "@emotion/styled": "^11.10.6",
+        "@fontsource/roboto": "^4.5.8",
+        "@mui/icons-material": "^5.11.0",
+        "@mui/material": "^5.11.12",
+        "@mui/x-date-pickers": "^6.0.1",
+        "@next/font": "13.1.6",
+        "@nextui-org/react": "^1.0.0-beta.12",
+        "@react-google-maps/api": "^2.18.1",
+        "date-fns": "^2.29.3",
+        "dayjs": "^1.11.7",
+        "google-map-react": "^2.2.0",
+        "react-date-range": "^1.4.0",
+        "@react-aria/ssr": "^3.5.0",
+        "eslint": "8.33.0",
+        "eslint-config-next": "^13.2.3",
+        "next": "^13.2.3",
+        "pocketbase": "^0.10.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-hook-form": "^7.43.1",
+        "react-query": "^3.39.3",
+        "styled-components": "^5.3.8"
+    },
+    "devDependencies": {
+        "prettier": "2.8.4"
+    }
 }

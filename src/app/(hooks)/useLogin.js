@@ -13,10 +13,12 @@ export default function useLogin() {
         .collection('users')
         .authWithPassword(email, password);
       setError(false);
+      setLoading(false);
     } catch (e) {
       setError(true);
+      setLoading(false);
+      return e;
     }
-    setLoading(false);
   }
 
   return { login, isLoading, isError };
