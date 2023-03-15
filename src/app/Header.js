@@ -14,16 +14,11 @@ export default function Header() {
   const [username, setUsername] = useState();
   const [avatar, setAvatar] = useState();
   const router = useRouter();
-
   const [activePage, setActivePage] = useState(0);
 
   useEffect(() => {
     setUsername(pb.authStore.model?.username);
   }, []);
-
-  const removeListener = pb.authStore.onChange((token, model) => {
-    setUsername(model?.username);
-  });
 
   try {
     pb.collection('users')
@@ -112,9 +107,20 @@ export default function Header() {
                   {pb.authStore.model.email}
                 </Text>
               </Dropdown.Item>
-              <Dropdown.Item key="posts" withDivider>
-                My posts
+
+              <Dropdown.Item key="posts" withDivider css={{ padding: '0px' }}>
+                <Link
+                  href={`users/${pb.authStore.model.id}`}
+                  style={{
+                    margin: '0px',
+                    display: 'block',
+                    padding: '10px',
+                  }}
+                >
+                  Show posts
+                </Link>
               </Dropdown.Item>
+
               <Dropdown.Item key="logout" withDivider color={'error'}>
                 Log out
               </Dropdown.Item>

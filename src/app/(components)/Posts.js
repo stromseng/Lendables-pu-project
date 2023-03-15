@@ -6,15 +6,19 @@ import usePosts from '../(hooks)/usePosts';
 import pb from '../(lib)/pocketbase';
 import { Input, Button, Icon } from '@nextui-org/react';
 
-export default function Posts() {
-  const { getPosts } = usePosts();
+export default function Posts(props) {
+  const { getPosts, getPostsByUser } = usePosts();
 
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    getPosts().then((posts) => {
-      setData(posts);
-    });
+    props.user
+      ? getPostsByUser(props.user).then((posts) => {
+          setData(posts);
+        })
+      : getPosts().then((posts) => {
+          setData(posts);
+        });
   }, []);
 
   async function handleSearch(string) {
@@ -30,20 +34,14 @@ export default function Posts() {
   }
 
   return (
-    <>
-      <Input
-        placeholder="Search..."
-        onChange={(e) => handleSearch(e.target.value)}
-        style={{ width: '600px' }}
-      />
-
-      <hr
-        style={{
-          color: 'lightgrey',
-          height: '1px',
-          width: '1200px',
-        }}
-      />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      {props.withSearch && (
+        <Input
+          placeholder="Search..."
+          onChange={(e) => handleSearch(e.target.value)}
+          style={{ width: '800px' }}
+        />
+      )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {data?.map((item) => (
@@ -60,6 +58,6 @@ export default function Posts() {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
