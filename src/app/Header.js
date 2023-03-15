@@ -102,6 +102,8 @@ export default function Header() {
             <Dropdown.Menu
               onAction={(key) => {
                 key == 'logout' && handleLogOut();
+                key == 'profile' &&
+                  router.push(`/profile/${pb.authStore.model.id}`);
               }}
             >
               <Dropdown.Item key="account" css={{ height: '$18' }}>
@@ -111,6 +113,9 @@ export default function Header() {
                 <Text b color="inherit" css={{ d: 'flex', margin: '$2 $0' }}>
                   {pb.authStore.model.email}
                 </Text>
+              </Dropdown.Item>
+              <Dropdown.Item key="profile" aria-label="My Profile">
+                Profile
               </Dropdown.Item>
               <Dropdown.Item key="posts" withDivider>
                 My posts

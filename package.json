@@ -11,7 +11,7 @@
     "lint:prettier": "prettier '**/*.{js,css,md,ts,tsx}' --check"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
+    "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.5",
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.0",
@@ -20,12 +20,15 @@
     "@nextui-org/react": "^1.0.0-beta.12",
     "@react-aria/ssr": "^3.5.0",
     "eslint": "8.33.0",
-    "eslint-config-next": "^13.2.3",
-    "next": "^13.2.3",
+    "eslint-config-next": "^13.2.4",
+    "next": "^13.2.4",
     "pocketbase": "^0.10.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.1",
+    "react-iconly": "^2.2.5",
     "react-query": "^3.39.3"
   },
   "devDependencies": {
