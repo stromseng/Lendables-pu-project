@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Post from './Post';
 import usePosts from '../(hooks)/usePosts';
 import pb from '../(lib)/pocketbase';
-import { Input, Button, Icon } from '@nextui-org/react';
+import { Input, Text, Spacer, Button, Icon } from '@nextui-org/react';
+import { Search } from 'react-iconly';
 
 export default function Posts() {
   const { getPosts } = usePosts();
@@ -31,12 +32,21 @@ export default function Posts() {
 
   return (
     <>
+      <Spacer y={1} />
       <Input
+        bordered
         placeholder="Search..."
         onChange={(e) => handleSearch(e.target.value)}
-        style={{ width: '600px' }}
+        css={{ width: '100%', backgroundColor: 'white' }}
+        contentRight={
+          <Search
+            set="curved"
+            primaryColor="black"
+            style={{ fontSize: '18' }}
+          />
+        }
       />
-
+      <Spacer y={0.5} />
       <hr
         style={{
           color: 'lightgrey',
@@ -44,8 +54,15 @@ export default function Posts() {
           width: '1200px',
         }}
       />
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <Text h2>Relevant for you</Text>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '30px',
+          justifyContent: 'center',
+        }}
+      >
         {data?.map((item) => (
           <Post
             key={item.id}
@@ -56,7 +73,8 @@ export default function Posts() {
             sellerName={item.expand.seller.name}
             telephone_number={item.expand.seller.telephone_number}
             description={item.description}
-            image={item.pictures[1]}
+            image={item.pictures[0]}
+            category={item.category}
           />
         ))}
       </div>

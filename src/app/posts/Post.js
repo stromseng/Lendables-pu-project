@@ -1,9 +1,11 @@
 'use client';
 import { maxWidth } from '@mui/system';
-import { Card, Grid, Text, Row, Button } from '@nextui-org/react';
+import { Card, Badge, Row, Text, Button } from '@nextui-org/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import pb from '../(lib)/pocketbase';
+import styles from '@/app/posts/Post.module.css';
+import { useRouter } from 'next/navigation';
 
 export default function Post({
   title,
@@ -14,17 +16,27 @@ export default function Post({
   telephone_number,
   description,
   image,
+  category,
 }) {
+  const router = useRouter();
+
   return (
-    <Grid xs={12} alignItems="center">
-      <Card
-        style={{ display: 'flex', flexDirection: 'row' }}
-        variant="bordered"
-        borderWeight="normal"
-      >
-        <img
-          width={420}
-          height={370}
+    <Card
+      isPressable
+      style={{
+        width: '280px',
+      }}
+      className={styles.card}
+      onPress={() => {
+        console.log('pressed');
+        router.push(`posts/${id}`);
+      }}
+    >
+      <div style={{ position: 'relative' }}>
+        <Card.Image
+          width={'100%'}
+          height={250}
+          objectFit="cover"
           src={
             image
               ? `http://127.0.0.1:8090/api/files/advertisements/${id}/${image}`
@@ -33,50 +45,29 @@ export default function Post({
           alt="Default Image"
           quality={100}
         />
-
-        <Card variant="shadow" css={{ h: '$30', w: '$10', width: '100%' }}>
-          <Card.Header
-            css={{ display: 'flex', flexDirection: 'row', gap: '250px' }}
+        <div className={styles.badgeContainer}>
+          <Badge>{category}</Badge>
+        </div>
+      </div>
+      <Card.Body css={{ p: 20 }}>
+        <Row wrap="wrap" justify="space-between" align="center">
+          <Text b>{title}</Text>
+          <Text
+            css={{
+              color: '$accents7',
+              fontWeight: '$semibold',
+              fontSize: '$sm',
+            }}
           >
-            <Text h1 b>
-              {title}
-            </Text>
-            <Text>{price} kr</Text>
-          </Card.Header>
-          <Card.Divider />
-          <Card.Body css={{ maxWidth: '100%' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Text h4 size={20} css={{ m: 0 }}>
-                Seller:
-              </Text>
-              <Text size={20} css={{ m: 0 }}>
-                {sellerName}
-              </Text>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Text h4 size={20} css={{ m: 0 }}>
-                Telephone number:
-              </Text>
-              <Text size={20} css={{ m: 0 }}>
-                {telephone_number}
-              </Text>
-            </div>
-            <Text size={15} css={{ m: 0, overflowWrap: 'break-word' }}>
-              {description}
-            </Text>
-          </Card.Body>
-
-          <Card.Footer>
-            <Row justify="flex-end">
-              <Link href={`posts/${id}`}>
-                <Button size="sm" color="success">
-                  Check asdf
-                </Button>
-              </Link>
-            </Row>
-          </Card.Footer>
-        </Card>
-      </Card>
-    </Grid>
+            {price} kr / dag
+          </Text>
+        </Row>
+        <Text weight="light" size="$sm">
+          {description.length < 120
+            ? description
+            : description.slice(0, 120) + '...'}
+        </Text>
+      </Card.Body>
+    </Card>
   );
 }
