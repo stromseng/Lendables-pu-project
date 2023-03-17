@@ -23,9 +23,6 @@ export default function Post({
   return (
     <Card
       isPressable
-      style={{
-        width: '280px',
-      }}
       className={styles.card}
       onPress={() => {
         console.log('pressed');

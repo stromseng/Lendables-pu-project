@@ -4,13 +4,15 @@ import React, { useState, useEffect } from 'react';
 import Post from './Post';
 import usePosts from '../(hooks)/usePosts';
 import pb from '../(lib)/pocketbase';
-import { Input, Text, Spacer, Button, Icon } from '@nextui-org/react';
+import { Input, Text, Spacer } from '@nextui-org/react';
 import { Search } from 'react-iconly';
+import styles from '@/app/posts/Post.module.css';
 
 export default function Posts() {
   const { getPosts } = usePosts();
 
   const [data, setData] = useState([]);
+  const [title, setTitle] = useState('Most recent');
 
   useEffect(() => {
     getPosts().then((posts) => {
@@ -21,12 +23,19 @@ export default function Posts() {
   async function handleSearch(string) {
     try {
       const filter = `title ~ "${string}"`;
-      const results = await pb
-        .collection('advertisements')
-        .getFullList(200, { filter: filter, expand: 'seller' });
+      const results = await pb.collection('advertisements').getFullList(200, {
+        filter: filter,
+        expand: 'seller',
+        sort: '-created',
+      });
       setData(results);
     } catch (error) {
       console.error(error);
+    }
+    if (string) {
+      setTitle('Search results:');
+    } else {
+      setTitle('Most recent');
     }
   }
 
@@ -54,15 +63,9 @@ export default function Posts() {
           width: '1200px',
         }}
       />
-      <Text h2>Relevant for you</Text>
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '30px',
-          justifyContent: 'center',
-        }}
-      >
+      <Text h2>{title}</Text>
+
+      <div className={styles.postContainer}>
         {data?.map((item) => (
           <Post
             key={item.id}

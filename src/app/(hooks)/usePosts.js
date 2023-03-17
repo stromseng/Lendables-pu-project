@@ -6,6 +6,7 @@ export default function usePosts() {
       .collection('advertisements')
       .getFullList(200 /* batch size */, {
         expand: 'seller',
+        sort: '-created',
       });
     return data;
   }

@@ -42,7 +42,7 @@ export default function RegisterForm() {
           minWidth: '350px',
         }}
       >
-        <Card variant="flat">
+        <Card>
           <Card.Body
             className={styles.registerForm}
             style={{

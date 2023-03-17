@@ -8,3 +8,9 @@
 .card p, .card h3 {
     margin: 0.5rem 0rem 0.5rem 0rem;
 }
+
+.postContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px, 1fr));
+    gap: 30px;
+}
