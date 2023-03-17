@@ -15,8 +15,7 @@ const Map = ({ address }) => {
 
   useEffect(() => {
     getCoords(address).then((data) => {
-      console.log(data);
-      setCoords(data);
+      setCoords(data.geometry.location);
     });
   }, []);
 

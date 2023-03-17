@@ -16,7 +16,7 @@ export default function useCoords() {
       );
       const myJson = await response.json(); //extract JSON from the http response
       setError(myJson.status != 'OK');
-      return myJson.results[0].geometry.location;
+      return myJson.results[0];
     } catch (error) {
       setError(true);
       console.log(error);
