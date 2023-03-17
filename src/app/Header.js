@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { Dropdown, Navbar, User, Text } from '@nextui-org/react';
 import useLogout from './(hooks)/useLogout';
 import { useRouter } from 'next/navigation';
+import { Plus, Search } from 'react-iconly';
 
 export default function Header() {
   const logout = useLogout();
@@ -70,13 +71,11 @@ export default function Header() {
           }}
         >
           <Link href="/posts">
-            <link
-              rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
+            <Search
+              set="curved"
+              primaryColor="black"
+              style={{ margin: '0px 5px' }}
             />
-            <span className={`${styles.icon} material-symbols-outlined`}>
-              search
-            </span>
             Search
           </Link>
         </Navbar.Link>
@@ -89,13 +88,7 @@ export default function Header() {
           }}
         >
           <Link href="/createad">
-            <link
-              rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
-            />
-            <span className={`${styles.icon} material-symbols-outlined`}>
-              add_circle
-            </span>
+            <Plus set="curved" primaryColor="black" style={{ margin: '0px 5px' }} />
             New post
           </Link>
         </Navbar.Link>

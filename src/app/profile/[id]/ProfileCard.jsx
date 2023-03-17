@@ -32,12 +32,15 @@ export default function ProfileCard({ userRecord }) {
     const formData = new FormData();
     formData.append('username', data.username);
     formData.append('name', data.fullname);
-    formData.append('email', data.email);
     formData.append('telephone_number', data.phone);
     formData.append('password', data.newpw1);
     formData.append('passwordConfirm', data.newpw2);
     formData.append('oldPassword', data.oldpw);
-    formData.append('avatar', data.avatar[0]);
+    // Check if file is selected
+    if (data.avatar[0]) {
+      formData.append('avatar', data.avatar[0]);
+    }
+
     updateProfile(formData);
   };
 
@@ -137,6 +140,7 @@ export default function ProfileCard({ userRecord }) {
               <Input
                 bordered
                 required={true}
+                disabled
                 type="email"
                 label="Email"
                 initialValue={userRecord.email}
