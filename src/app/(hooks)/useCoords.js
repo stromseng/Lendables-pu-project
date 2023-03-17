@@ -1,5 +1,3 @@
-import pb from 'src/app/(lib)/pocketbase.js';
-import { useMutation } from 'react-query';
 import { useState } from 'react';
 
 export default function useCoords() {

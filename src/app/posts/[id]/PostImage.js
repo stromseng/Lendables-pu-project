@@ -11,17 +11,12 @@ import { BookingCalendar } from './BookingCalendar';
 export const PostImage = ({ post }) => {
   const picturesList = post.pictures;
   const [imageIndex, setImageIndex] = useState(0);
-  const [sellerAvatar, setSellerAvatar] = useState();
 
-  useEffect(() => {
-    try {
-      setSellerAvatar(
-        pb.getFileUrl(post.expand.seller, post.expand.seller.avatar)
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  let sellerAvatar = null;
+
+  if (post.expand.seller.avatar) {
+    sellerAvatar = pb.getFileUrl(post.expand.seller, post.expand.seller.avatar);
+  }
 
   return (
     <>
@@ -76,7 +71,10 @@ export const PostImage = ({ post }) => {
                 <div style={{ display: 'flex', gap: '25px' }}>
                   <Card variant="bordered" style={{ width: '100%' }}>
                     <Card.Body css={{ p: 20 }}>
-                      <Avatar src={sellerAvatar} />
+                      <Avatar
+                        src={sellerAvatar}
+                        text={post.expand.seller.name.match(/\b\w/g).join('')}
+                      />
                       <Text h4 style={{ margin: '15px 0px 6px 0px' }}>
                         {post.expand.seller.name}
                       </Text>

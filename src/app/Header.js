@@ -17,23 +17,30 @@ export default function Header() {
 
   const [activePage, setActivePage] = useState(0);
 
+  const updateProfilePicture = (user) => {
+    try {
+      pb.collection('users')
+        .getOne(user.id)
+        .then((data) => {
+          if (data.avatar) {
+            setAvatar(pb.getFileUrl(data, data.avatar));
+          }
+        });
+    } catch (error) {}
+  };
+
   useEffect(() => {
     setUsername(pb.authStore.model?.username);
+    updateProfilePicture(pb.authStore.model);
   }, []);
 
   const removeListener = pb.authStore.onChange((token, model) => {
     setUsername(model?.username);
+    updateProfilePicture(pb.authStore.model);
   });
 
-  try {
-    pb.collection('users')
-      .getOne(pb.authStore.model.id)
-      .then((data) => {
-        setAvatar(pb.getFileUrl(data, data.avatar));
-      });
-  } catch (error) {}
-
   function handleLogOut() {
+    setAvatar();
     logout();
     router.push('/login');
   }
@@ -96,7 +103,12 @@ export default function Header() {
           <Dropdown>
             <Navbar.Item>
               <Dropdown.Trigger>
-                <User name={username} size="sm" src={avatar} />
+                <User
+                  name={username}
+                  size="sm"
+                  src={avatar}
+                  text={pb.authStore.model.name.match(/\b\w/g).join('')}
+                />
               </Dropdown.Trigger>
             </Navbar.Item>
             <Dropdown.Menu
