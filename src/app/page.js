@@ -1,7 +1,11 @@
+import Posts from './(components)/Posts';
+import Title from './(components)/Title';
+
 export default function Home() {
   return (
     <>
-      <h1>Homepage</h1>
+      <Title>Welcome to Lendables_light</Title>
+      <Posts withSearch={true} />
     </>
   );
 }

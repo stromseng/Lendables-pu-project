@@ -46,8 +46,8 @@ export default function Posts(props) {
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        {props.withSearch && (
-          <>
+        <>
+          {props.withSearch && (
             <Input
               bordered
               placeholder="Search..."
@@ -61,32 +61,32 @@ export default function Posts(props) {
                 />
               }
             />
-            <hr
-              style={{
-                color: 'lightgrey',
-                height: '1px',
-                width: '1200px',
-              }}
-            />
-            <Text h2>{title}</Text>
-            <div className={styles.postContainer}>
-              {data?.map((item) => (
-                <Post
-                  key={item.id}
-                  title={item.title}
-                  id={item.id}
-                  created={item.created}
-                  price={item.price}
-                  sellerName={item.expand.seller.name}
-                  telephone_number={item.expand.seller.telephone_number}
-                  description={item.description}
-                  image={item.pictures[0]}
-                  category={item.category}
-                />
-              ))}
-            </div>
-          </>
-        )}
+          )}
+          <hr
+            style={{
+              color: 'lightgrey',
+              height: '1px',
+              width: '1200px',
+            }}
+          />
+          <Text h2>{title}</Text>
+          <div className={styles.postContainer}>
+            {data?.map((item) => (
+              <Post
+                key={item.id}
+                title={item.title}
+                id={item.id}
+                created={item.created}
+                price={item.price}
+                sellerName={item.expand.seller.name}
+                telephone_number={item.expand.seller.telephone_number}
+                description={item.description}
+                image={item.pictures[0]}
+                category={item.category}
+              />
+            ))}
+          </div>
+        </>
       </div>
     </>
   );

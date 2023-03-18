@@ -1,5 +1,13 @@
 'use client';
-import { Avatar, Badge, Card, Text, Grid, Spacer } from '@nextui-org/react';
+import {
+  Avatar,
+  Badge,
+  Card,
+  Text,
+  Grid,
+  Spacer,
+  Pagination,
+} from '@nextui-org/react';
 import { useState, useEffect } from 'react';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -11,12 +19,6 @@ import { BookingCalendar } from './BookingCalendar';
 export const PostImage = ({ post }) => {
   const picturesList = post.pictures;
   const [imageIndex, setImageIndex] = useState(0);
-
-  let sellerAvatar = null;
-
-  if (post.expand.seller.avatar) {
-    sellerAvatar = pb.getFileUrl(post.expand.seller, post.expand.seller.avatar);
-  }
 
   return (
     <>
@@ -40,17 +42,26 @@ export const PostImage = ({ post }) => {
                 objectFit="cover"
                 width="100%"
                 height="100%"
+                style={{ display: 'relative' }}
               />
-              {/* {post.pictures.lenght != 0 && (
-                  <Pagination
-                    loop
-                    onlyDots
-                    color="success"
-                    total={post.pictures.length}
-                    initialPage={6}
-                    onChange={(page) => setImageIndex(page - 1)}
-                  />
-                )} */}
+              {post.pictures.length && post.pictures.length > 1 && (
+                <Pagination
+                  loop
+                  onlyDots
+                  color="success"
+                  total={post.pictures.length}
+                  initialPage={6}
+                  onChange={(page) => {
+                    setImageIndex(page - 1);
+                  }}
+                  size="xl"
+                  style={{
+                    alignSelf: 'center',
+                    marginTop: '60%',
+                    position: 'absolute',
+                  }}
+                />
+              )}
               <div style={{ padding: '20px' }}>
                 <Badge>{post.category}</Badge>
                 <Spacer y={0.5} />
@@ -62,17 +73,23 @@ export const PostImage = ({ post }) => {
                 </Text>
                 <Card.Divider />
                 <Text weight="semibold">Description</Text>
-                <Text weight="light">
+                <Text weight="light" style={{ wordWrap: 'break-word' }}>
                   {post.description || 'No descrtiption'}
                 </Text>
                 <Spacer y={0.5} />
                 <Text weight="semibold">Additional info</Text>
-
                 <div style={{ display: 'flex', gap: '25px' }}>
                   <Card variant="bordered" style={{ width: '100%' }}>
                     <Card.Body css={{ p: 20 }}>
                       <Avatar
-                        src={sellerAvatar}
+                        src={
+                          post.expand.seller.avatar &&
+                          pb.getFileUrl(
+                            post.expand.seller,
+                            post.expand.seller.avatar
+                          )
+                        }
+                        onClick={() => console.log(post.pictures)}
                         text={post.expand.seller.name.match(/\b\w/g).join('')}
                       />
                       <Text h4 style={{ margin: '15px 0px 6px 0px' }}>

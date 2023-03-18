@@ -12,6 +12,7 @@ export default function useCoords() {
           address
         )}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
       );
+      console.log(response);
       const myJson = await response.json(); //extract JSON from the http response
       setError(myJson.status != 'OK');
       return myJson.results[0];
