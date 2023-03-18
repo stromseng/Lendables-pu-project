@@ -15,6 +15,7 @@ export default function Header() {
   const [username, setUsername] = useState();
   const [avatar, setAvatar] = useState();
   const router = useRouter();
+
   const [activePage, setActivePage] = useState(0);
 
   const updateProfilePicture = (user) => {
@@ -87,7 +88,11 @@ export default function Header() {
           }}
         >
           <Link href="/createad">
-            <Plus set="curved" primaryColor="black" style={{ margin: '0px 5px' }} />
+            <Plus
+              set="curved"
+              primaryColor="black"
+              style={{ margin: '0px 5px' }}
+            />
             New post
           </Link>
         </Navbar.Link>
@@ -108,6 +113,7 @@ export default function Header() {
                 key == 'logout' && handleLogOut();
                 key == 'profile' &&
                   router.push(`/profile/${pb.authStore.model.id}`);
+                key == 'posts' && router.push(`users/${pb.authStore.model.id}`);
               }}
             >
               <Dropdown.Item key="account" css={{ height: '$18' }}>
@@ -118,20 +124,12 @@ export default function Header() {
                   {pb.authStore.model.email}
                 </Text>
               </Dropdown.Item>
-
-              <Dropdown.Item key="posts" withDivider css={{ padding: '0px' }}>
-                <Link
-                  href={`users/${pb.authStore.model.id}`}
-                  style={{
-                    margin: '0px',
-                    display: 'block',
-                    padding: '10px',
-                  }}
-                >
-                  Show posts
-                </Link>
+              <Dropdown.Item key="profile" aria-label="My Profile">
+                Profile
               </Dropdown.Item>
-
+              <Dropdown.Item key="posts" withDivider>
+                My posts
+              </Dropdown.Item>
               <Dropdown.Item key="logout" withDivider color={'error'}>
                 Log out
               </Dropdown.Item>

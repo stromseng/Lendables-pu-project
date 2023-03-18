@@ -45,7 +45,7 @@ export default function LoginField() {
           minWidth: '300px',
         }}
       >
-        <Card variant="flat">
+        <Card>
           <Card.Body
             style={{
               display: 'flex',
