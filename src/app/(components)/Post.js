@@ -28,6 +28,7 @@ export default function Post({
         console.log('pressed');
         router.push(`posts/${id}`);
       }}
+      css={{ maxW: '30rem' }}
     >
       <div style={{ position: 'relative' }}>
         <Card.Image
@@ -59,7 +60,7 @@ export default function Post({
             {price} kr / dag
           </Text>
         </Row>
-        <Text weight="light" size="$sm">
+        <Text weight="light" size="$sm" style={{ wordWrap: 'break-word' }}>
           {description.length < 120
             ? description
             : description.slice(0, 120) + '...'}

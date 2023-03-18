@@ -35,11 +35,6 @@ export default function Header() {
     updateProfilePicture(pb.authStore.model);
   }, []);
 
-  const removeListener = pb.authStore.onChange((token, model) => {
-    setUsername(model?.username);
-    updateProfilePicture(pb.authStore.model);
-  });
-
   function handleLogOut() {
     setAvatar();
     logout();
@@ -70,11 +65,11 @@ export default function Header() {
             setActivePage(1);
           }}
         >
-          <Link href="/posts">
+          <Link href="/">
             <Search
               set="curved"
               primaryColor="black"
-              style={{ margin: '0px 5px' }}
+              className={styles.navLink}
             />
             Search
           </Link>
@@ -91,7 +86,7 @@ export default function Header() {
             <Plus
               set="curved"
               primaryColor="black"
-              style={{ margin: '0px 5px' }}
+              className={styles.navLink}
             />
             New post
           </Link>

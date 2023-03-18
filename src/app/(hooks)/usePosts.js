@@ -5,6 +5,7 @@ export default function usePosts() {
     const data = await pb
       .collection('advertisements')
       .getFullList(200 /* batch size */, {
+        filter: `seller != "${pb.authStore.model.id}"`,
         expand: 'seller',
         sort: '-created',
       });

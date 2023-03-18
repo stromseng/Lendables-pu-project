@@ -4,11 +4,14 @@
   height: 65px;
 }
 
-.navBar{
-    background-color: white;
+.navBar {
+  background-color: white;
 }
-  
-.icon{
-    margin: 0px 3px;
+
+.icon {
+  margin: 0px 3px;
 }
-  
+
+.navLink {
+  margin: 0px 5px;
+}
