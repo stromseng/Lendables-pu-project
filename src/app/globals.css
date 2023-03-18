@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  
 }
 
 html,
@@ -8,6 +9,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    background-color: #ECECEC;
 }
 
 a {
@@ -22,4 +24,34 @@ main {
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
+}
+
+.rdrDateInput:has(input) {
+    border-radius: 12px;
+    border-color: #CECFD1;
+    border-width: 2px;
+}
+
+.rdrDateDisplayItemActive:has(input) {
+    border-color: black;
+}
+
+.rdrDateDisplayWrapper:has(input){
+    background-color: transparent;
+}
+
+.rdrMonths{
+    align-items: center;
+}
+
+.rdrDayToday .rdrDayNumber:has(span) span:after{
+    background: #17C964;
+}
+
+.mapContainer{
+    width: 100%;
+    height: 500px;
+    background-color: #fbfbfb;
+    display: flex;
+    align-items: center;
 }

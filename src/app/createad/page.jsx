@@ -25,6 +25,7 @@ import '@fontsource/roboto/700.css';
 
 //My components
 import StandardImageList from './StandardImageList';
+import useCoords from '../(hooks)/useCoords';
 
 //Check user preference for dark mode
 // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -48,7 +49,7 @@ if (prefersDark) {
 }
 
 //Create record from form data and selected files
-const pbCreateAd = async (data, selectedFiles) => {
+const pbCreateAd = async (data, selectedFiles, city) => {
   const formData = new FormData();
   //Append form data to formData
   formData.append('title', data.get('title'));
@@ -56,7 +57,8 @@ const pbCreateAd = async (data, selectedFiles) => {
   formData.append('price', data.get('price'));
   formData.append('seller', pb.authStore.model.id);
   formData.append('category', data.get('category'));
-  formData.append('address', data.get('address'));
+  formData.append('streetAddress', data.get('streetAddress'));
+  formData.append('city', city)
   formData.append('zipcode', data.get('zipcode'));
   formData.append('phone', data.get('phone'));
   formData.append('email', data.get('email'));
@@ -86,9 +88,11 @@ export default function Page() {
 
   //Unused form hooks for now (will be used later when implementing proper form validation)
   // eslint-disable-next-line no-unused-vars
-  const [address, setAddress] = React.useState('');
+  const [streetAddress, setStreetAddress] = React.useState('');
   // eslint-disable-next-line no-unused-vars
   const [zipcode, setZipcode] = React.useState('');
+  // eslint-disable-next-line no-unused-vars
+  const [city, setCity] = React.useState('')
   // eslint-disable-next-line no-unused-vars
   const [phone, setPhone] = React.useState('');
   // eslint-disable-next-line no-unused-vars
@@ -102,6 +106,8 @@ export default function Page() {
     setSubmitButtonColor(color);
     setSubmitButtonText(text);
   };
+
+  const { getCoords } = useCoords();
 
   //Hook to watch for file changes
   React.useEffect(() => {
@@ -130,19 +136,7 @@ export default function Page() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log('Form Data1:', data);
-    console.log('Form Data2:', {
-      Title: data.get('title'),
-      Category: data.get('category'),
-      Description: data.get('description'),
-      Price: data.get('price'),
-      Address: data.get('address'),
-      Zipcode: data.get('zipcode'),
-      Phone: data.get('phone'),
-      Email: data.get('email'),
-      Pictures: selectedFiles,
-    });
-    pbCreateAd(data, selectedFiles)
+    pbCreateAd(data, selectedFiles, city)
       .then((result) => {
         // success...
         console.log('PB Result:', result);
@@ -163,6 +157,22 @@ export default function Page() {
         setSubmitButtonStyle('error', 'Error');
       });
   };
+
+  function retriveZipaddress(zipcode){
+    setZipcode(zipcode);
+    if(zipcode.length === 4){
+      getCoords(`${zipcode} Norway`).then((data) => {
+        try {
+          setCity(data.formatted_address.match(/[ÆØÅæøåa-zA-Z]+(?=(, Norway))/)[0]);
+        } catch (error) {
+          console.log(error)
+        }
+      })
+    }
+    else(
+      setCity(' ')
+    )
+  }
 
   const validateForm = () => {
     return Title.length > 0 && Description.length > 0 && Price.length > 0;
@@ -292,11 +302,11 @@ export default function Page() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  id="address"
-                  name="address"
+                  id="streetAddress"
+                  name="streetAddress"
                   label="Gate Adresse"
                   onChange={(e) => {
-                    setAddress(e.target.value);
+                    setStreetAddress(e.target.value);
                   }}
                 />
               </Grid>
@@ -307,9 +317,10 @@ export default function Page() {
                   name="zipcode"
                   label="Postnummer"
                   onChange={(e) => {
-                    setZipcode(e.target.value);
+                    retriveZipaddress(e.target.value)
                   }}
                 />
+                <p id="city" name="city">{city}</p>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="subtitle1" color="initial">
