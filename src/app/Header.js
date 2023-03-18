@@ -81,7 +81,11 @@ export default function Header() {
           }}
         >
           <Link href="/createad">
-            <Plus set="curved" primaryColor="black" style={{ margin: '0px 5px' }} />
+            <Plus
+              set="curved"
+              primaryColor="black"
+              style={{ margin: '0px 5px' }}
+            />
             New post
           </Link>
         </Navbar.Link>
@@ -97,6 +101,7 @@ export default function Header() {
                 key == 'logout' && handleLogOut();
                 key == 'profile' &&
                   router.push(`/profile/${pb.authStore.model.id}`);
+                key == 'posts' && router.push(`users/${pb.authStore.model.id}`);
               }}
             >
               <Dropdown.Item key="account" css={{ height: '$18' }}>
