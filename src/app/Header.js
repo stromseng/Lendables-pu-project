@@ -38,6 +38,7 @@ export default function Header() {
   function handleLogOut() {
     setAvatar();
     logout();
+    setUsername();
     router.push('/login');
   }
 
