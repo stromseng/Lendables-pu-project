@@ -15,7 +15,6 @@ export default function Header() {
   const [username, setUsername] = useState();
   const [avatar, setAvatar] = useState();
   const router = useRouter();
-
   const [activePage, setActivePage] = useState(0);
 
   const updateProfilePicture = (user) => {
@@ -119,12 +118,20 @@ export default function Header() {
                   {pb.authStore.model.email}
                 </Text>
               </Dropdown.Item>
-              <Dropdown.Item key="profile" aria-label="My Profile">
-                Profile
+
+              <Dropdown.Item key="posts" withDivider css={{ padding: '0px' }}>
+                <Link
+                  href={`users/${pb.authStore.model.id}`}
+                  style={{
+                    margin: '0px',
+                    display: 'block',
+                    padding: '10px',
+                  }}
+                >
+                  Show posts
+                </Link>
               </Dropdown.Item>
-              <Dropdown.Item key="posts" withDivider>
-                My posts
-              </Dropdown.Item>
+
               <Dropdown.Item key="logout" withDivider color={'error'}>
                 Log out
               </Dropdown.Item>
