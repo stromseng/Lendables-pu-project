@@ -5,9 +5,21 @@ export default function usePosts() {
     const data = await pb
       .collection('advertisements')
       .getFullList(200 /* batch size */, {
+        filter: `seller != "${pb.authStore.model.id}"`,
         expand: 'seller',
+        sort: '-created',
       });
     return data;
   }
-  return { getPosts };
+  async function getPostsByUser(userId) {
+    const data = await pb
+      .collection('advertisements')
+      .getFullList(200 /* batch size */, {
+        filter: `seller = "${userId}"`,
+        expand: 'seller',
+        sort: '-created',
+      });
+    return data;
+  }
+  return { getPosts, getPostsByUser };
 }

@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { Dropdown, Navbar, User, Text } from '@nextui-org/react';
 import useLogout from './(hooks)/useLogout';
 import { useRouter } from 'next/navigation';
+import { Plus, Search } from 'react-iconly';
 
 export default function Header() {
   const logout = useLogout();
@@ -17,24 +18,27 @@ export default function Header() {
 
   const [activePage, setActivePage] = useState(0);
 
+  const updateProfilePicture = (user) => {
+    try {
+      pb.collection('users')
+        .getOne(user.id)
+        .then((data) => {
+          if (data.avatar) {
+            setAvatar(pb.getFileUrl(data, data.avatar));
+          }
+        });
+    } catch (error) {}
+  };
+
   useEffect(() => {
     setUsername(pb.authStore.model?.username);
+    updateProfilePicture(pb.authStore.model);
   }, []);
 
-  const removeListener = pb.authStore.onChange((token, model) => {
-    setUsername(model?.username);
-  });
-
-  try {
-    pb.collection('users')
-      .getOne(pb.authStore.model.id)
-      .then((data) => {
-        setAvatar(pb.getFileUrl(data, data.avatar));
-      });
-  } catch (error) {}
-
   function handleLogOut() {
+    setAvatar();
     logout();
+    setUsername();
     router.push('/login');
   }
 
@@ -62,14 +66,12 @@ export default function Header() {
             setActivePage(1);
           }}
         >
-          <Link href="/posts">
-            <link
-              rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
+          <Link href="/">
+            <Search
+              set="curved"
+              primaryColor="black"
+              className={styles.navLink}
             />
-            <span className={`${styles.icon} material-symbols-outlined`}>
-              search
-            </span>
             Search
           </Link>
         </Navbar.Link>
@@ -82,13 +84,11 @@ export default function Header() {
           }}
         >
           <Link href="/createad">
-            <link
-              rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,0,0"
+            <Plus
+              set="curved"
+              primaryColor="black"
+              className={styles.navLink}
             />
-            <span className={`${styles.icon} material-symbols-outlined`}>
-              add_circle
-            </span>
             New post
           </Link>
         </Navbar.Link>
@@ -96,12 +96,20 @@ export default function Header() {
           <Dropdown>
             <Navbar.Item>
               <Dropdown.Trigger>
-                <User name={username} size="sm" src={avatar} />
+                <User
+                  name={username}
+                  size="sm"
+                  src={avatar}
+                  text={pb.authStore.model.name.match(/\b\w/g).join('')}
+                />
               </Dropdown.Trigger>
             </Navbar.Item>
             <Dropdown.Menu
               onAction={(key) => {
                 key == 'logout' && handleLogOut();
+                key == 'profile' &&
+                  router.push(`/profile/${pb.authStore.model.id}`);
+                key == 'posts' && router.push(`users/${pb.authStore.model.id}`);
               }}
             >
               <Dropdown.Item key="account" css={{ height: '$18' }}>
@@ -111,6 +119,9 @@ export default function Header() {
                 <Text b color="inherit" css={{ d: 'flex', margin: '$2 $0' }}>
                   {pb.authStore.model.email}
                 </Text>
+              </Dropdown.Item>
+              <Dropdown.Item key="profile" aria-label="My Profile">
+                Profile
               </Dropdown.Item>
               <Dropdown.Item key="posts" withDivider>
                 My posts

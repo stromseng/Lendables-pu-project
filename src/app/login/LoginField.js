@@ -24,7 +24,7 @@ export default function LoginField() {
 
   async function onSubmit(data) {
     login({ email: data.email, password: data.password }).then((error) => {
-      !error && router.push('/posts');
+      !error && router.push('/');
     });
     reset();
   }
@@ -45,7 +45,7 @@ export default function LoginField() {
           minWidth: '300px',
         }}
       >
-        <Card variant="flat">
+        <Card>
           <Card.Body
             style={{
               display: 'flex',
