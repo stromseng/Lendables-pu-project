@@ -110,7 +110,6 @@ export default function Header() {
                   : theme.theme.colors.foreground.value
               }
               className={styles.navLink}
-
             />
             New post
           </Link>

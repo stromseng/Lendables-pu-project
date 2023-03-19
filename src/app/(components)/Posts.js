@@ -4,46 +4,34 @@ import React, { useState, useEffect } from 'react';
 import Post from './Post';
 import usePosts from '../(hooks)/usePosts';
 import pb from '../(lib)/pocketbase';
-import { Input, Text, Spacer, useTheme, Link } from '@nextui-org/react';
+import {
+  Input,
+  Text,
+  Spacer,
+  useTheme,
+  Link,
+  Dropdown,
+} from '@nextui-org/react';
 import { Search } from 'react-iconly';
 import styles from '@/app/(components)/Post.module.css';
 
 export default function Posts(props) {
-  const { getPosts, getPostsByUser } = usePosts();
+  const { getPosts } = usePosts();
   const { theme } = useTheme();
 
   const [data, setData] = useState([]);
-  const [title, setTitle] = useState('Most recent');
   const [category, setCategory] = useState('');
+  const [selectedSorting, setSelectedSorting] = React.useState(
+    new Set(['newest'])
+  );
 
   useEffect(() => {
-    props.user
-      ? getPostsByUser(props.user).then((posts) => {
-          setData(posts);
-        })
-      : getPosts().then((posts) => {
-          setData(posts);
-        });
-  }, []);
-
-  async function handleSearch(string) {
-    try {
-      const filter = `title ~ "${string}"`;
-      const results = await pb.collection('advertisements').getFullList(200, {
-        filter: filter,
-        expand: 'seller',
-        sort: '-created',
-      });
-      setData(results);
-    } catch (error) {
-      console.error(error);
-    }
-    if (string) {
-      setTitle('Search results:');
-    } else {
-      setTitle('Most recent');
-    }
-  }
+    getPosts(Array.from(selectedSorting).at(0), '', '', props.user ?? '').then(
+      (posts) => {
+        setData(posts);
+      }
+    );
+  }, [selectedSorting]);
 
   async function handleCategoryClick(cat) {
     try {
@@ -68,25 +56,54 @@ export default function Posts(props) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {props.withSearch && (
           <>
-            <Spacer y={0.7} />
-            <Input
-              bordered
-              clearable
-              placeholder="Search..."
-              onChange={(e) => handleSearch(e.target.value)}
-              css={{ width: '100%', backgroundColor: '$backgroundContrast' }}
-              contentRight={
-                <Search
-                  set="curved"
-                  primaryColor={theme.colors.gray700.value}
-                  style={{ fontSize: '18' }}
-                />
-              }
-            />
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <Input
+                bordered
+                placeholder="Search..."
+                onChange={(e) =>
+                  getPosts(
+                    Array.from(selectedSorting).at(0),
+                    '',
+                    e.target.value
+                  ).then((posts) => {
+                    setData(posts);
+                  })
+                }
+                css={{ width: '100%', backgroundColor: 'white' }}
+                contentRight={<Search set="curved" />}
+              />
+              <Dropdown>
+                <Dropdown.Button
+                  flat
+                  color="success"
+                  css={{ tt: 'capitalize' }}
+                >
+                  {Array.from(selectedSorting).join(', ').replaceAll('-', ' ')}
+                </Dropdown.Button>
+                <Dropdown.Menu
+                  aria-label="Single selection actions"
+                  color="success"
+                  disallowEmptySelection
+                  selectionMode="single"
+                  selectedKeys={selectedSorting}
+                  onSelectionChange={setSelectedSorting}
+                >
+                  <Dropdown.Item key="newest">Newest</Dropdown.Item>
+                  <Dropdown.Item key="oldest">Oldest</Dropdown.Item>
+                  <Dropdown.Item key="popularity">Most popular</Dropdown.Item>
+                  <Dropdown.Item key="price-low">
+                    Price: low to high
+                  </Dropdown.Item>
+                  <Dropdown.Item key="price-high">
+                    Price: high to low
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+
             <Spacer y={0.5} />
 
             <div style={{ display: 'flex', gap: '50px', alignItems: 'center' }}>
-              <Link style={{ fontWeight: 'bold', marginRight: '200px' }}></Link>
               <Link
                 onClick={() => handleCategoryClick('all categories')}
                 style={{
@@ -174,7 +191,7 @@ export default function Posts(props) {
             </div>
           </>
         )}
-        <Text h2>{title}</Text>
+
         <div className={styles.postContainer}>
           {data?.map((item) => (
             <Post
@@ -191,7 +208,6 @@ export default function Posts(props) {
             />
           ))}
         </div>
-        <Spacer y={1} />
       </div>
     </>
   );
