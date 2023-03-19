@@ -4,9 +4,7 @@ import Providers from './Providers';
 export default function RootLayout({ children }) {
   return (
     <html>
-      <body>
-        <Providers>{children}</Providers>
-      </body>
+      <Providers>{children}</Providers>
     </html>
   );
 }

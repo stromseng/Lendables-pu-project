@@ -9,6 +9,13 @@ export default async function UserPage({ params }) {
   return (
     <>
       <ProfileSection user={user} />
+      <hr
+        style={{
+          color: 'lightgrey',
+          height: '1px',
+          width: '1200px',
+        }}
+      />
       <Posts user={user.id} withSearch={false} />
     </>
   );

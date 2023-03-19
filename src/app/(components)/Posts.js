@@ -4,12 +4,13 @@ import React, { useState, useEffect } from 'react';
 import Post from './Post';
 import usePosts from '../(hooks)/usePosts';
 import pb from '../(lib)/pocketbase';
-import { Input, Text, Spacer, Icon, Link } from '@nextui-org/react';
+import { Input, Text, Spacer, useTheme, Link } from '@nextui-org/react';
 import { Search } from 'react-iconly';
 import styles from '@/app/(components)/Post.module.css';
 
 export default function Posts(props) {
   const { getPosts, getPostsByUser } = usePosts();
+  const { theme } = useTheme();
 
   const [data, setData] = useState([]);
   const [title, setTitle] = useState('Most recent');
@@ -67,36 +68,32 @@ export default function Posts(props) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {props.withSearch && (
           <>
+            <Spacer y={0.7} />
             <Input
               bordered
               clearable
               placeholder="Search..."
               onChange={(e) => handleSearch(e.target.value)}
-              css={{ width: '100%', backgroundColor: 'white' }}
+              css={{ width: '100%', backgroundColor: '$backgroundContrast' }}
               contentRight={
                 <Search
                   set="curved"
-                  primaryColor="black"
+                  primaryColor={theme.colors.gray700.value}
                   style={{ fontSize: '18' }}
                 />
               }
             />
-
-            <hr
-              style={{
-                color: 'lightgrey',
-                height: '1px',
-                width: '1200px',
-              }}
-            />
-            <Spacer y={1} />
+            <Spacer y={0.5} />
 
             <div style={{ display: 'flex', gap: '50px', alignItems: 'center' }}>
               <Link style={{ fontWeight: 'bold', marginRight: '200px' }}></Link>
               <Link
                 onClick={() => handleCategoryClick('all categories')}
                 style={{
-                  color: category === 'all categories' ? 'black' : 'green',
+                  color:
+                    category === 'all categories'
+                      ? theme.colors.text.value
+                      : theme.colors.green600.value,
                   cursor: 'pointer',
                 }}
               >
@@ -105,7 +102,10 @@ export default function Posts(props) {
               <Link
                 onClick={() => handleCategoryClick('Electronics')}
                 style={{
-                  color: category === 'Electronics' ? 'black' : 'green',
+                  color:
+                    category === 'Electronics'
+                      ? theme.colors.text.value
+                      : theme.colors.green600.value,
                   cursor: 'pointer',
                 }}
               >
@@ -114,7 +114,10 @@ export default function Posts(props) {
               <Link
                 onClick={() => handleCategoryClick('Tool kit')}
                 style={{
-                  color: category === 'Tool kit' ? 'black' : 'green',
+                  color:
+                    category === 'Tool kit'
+                      ? theme.colors.text.value
+                      : theme.colors.green600.value,
                   cursor: 'pointer',
                 }}
               >
@@ -123,7 +126,10 @@ export default function Posts(props) {
               <Link
                 onClick={() => handleCategoryClick('Car')}
                 style={{
-                  color: category === 'Car' ? 'black' : 'green',
+                  color:
+                    category === 'Car'
+                      ? theme.colors.text.value
+                      : theme.colors.green600.value,
                   cursor: 'pointer',
                 }}
               >
@@ -132,7 +138,10 @@ export default function Posts(props) {
               <Link
                 onClick={() => handleCategoryClick('Power tools')}
                 style={{
-                  color: category === 'Power tools' ? 'black' : 'green',
+                  color:
+                    category === 'Power tools'
+                      ? theme.colors.text.value
+                      : theme.colors.green600.value,
                   cursor: 'pointer',
                 }}
               >
@@ -141,7 +150,10 @@ export default function Posts(props) {
               <Link
                 onClick={() => handleCategoryClick('Hobby')}
                 style={{
-                  color: category === 'Hobby' ? 'black' : 'green',
+                  color:
+                    category === 'Hobby'
+                      ? theme.colors.text.value
+                      : theme.colors.green600.value,
                   cursor: 'pointer',
                 }}
               >
@@ -150,7 +162,10 @@ export default function Posts(props) {
               <Link
                 onClick={() => handleCategoryClick('Other')}
                 style={{
-                  color: category === 'Other' ? 'black' : 'green',
+                  color:
+                    category === 'Other'
+                      ? theme.colors.text.value
+                      : theme.colors.green600.value,
                   cursor: 'pointer',
                 }}
               >
@@ -159,8 +174,6 @@ export default function Posts(props) {
             </div>
           </>
         )}
-
-        <Spacer y={1} />
         <Text h2>{title}</Text>
         <div className={styles.postContainer}>
           {data?.map((item) => (
@@ -178,6 +191,7 @@ export default function Posts(props) {
             />
           ))}
         </div>
+        <Spacer y={1} />
       </div>
     </>
   );
