@@ -112,40 +112,40 @@ export default function Posts(props) {
                 Electronics
               </Link>
               <Link
-                onClick={() => handleCategoryClick('Tool kit')}
+                onClick={() => handleCategoryClick('Tools')}
                 style={{
                   color:
-                    category === 'Tool kit'
+                    category === 'Tools'
                       ? theme.colors.text.value
                       : theme.colors.green600.value,
                   cursor: 'pointer',
                 }}
               >
-                Tool kit
+                Tools
               </Link>
               <Link
-                onClick={() => handleCategoryClick('Car')}
+                onClick={() => handleCategoryClick('Cars')}
                 style={{
                   color:
-                    category === 'Car'
+                    category === 'Cars'
                       ? theme.colors.text.value
                       : theme.colors.green600.value,
                   cursor: 'pointer',
                 }}
               >
-                Car
+                Cars
               </Link>
               <Link
-                onClick={() => handleCategoryClick('Power tools')}
+                onClick={() => handleCategoryClick('Power Tools')}
                 style={{
                   color:
-                    category === 'Power tools'
+                    category === 'Power Tools'
                       ? theme.colors.text.value
                       : theme.colors.green600.value,
                   cursor: 'pointer',
                 }}
               >
-                Power tools
+                Power Tools
               </Link>
               <Link
                 onClick={() => handleCategoryClick('Hobby')}
