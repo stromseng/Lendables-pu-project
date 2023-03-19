@@ -101,7 +101,7 @@ export default function Header() {
             setActivePage(2);
           }}
         >
-          <Link href="/createad">
+          <Link href="/createpost">
             <Plus
               set="curved"
               primaryColor={
