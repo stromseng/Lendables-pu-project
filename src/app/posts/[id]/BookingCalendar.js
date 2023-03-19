@@ -2,15 +2,13 @@
 
 import { Card, Button, Loading, Text, Spacer } from '@nextui-org/react';
 import { DateRange } from 'react-date-range';
-import {
-  addDays,
-  intervalToDuration,
-  eachDayOfInterval,
-  formatISO,
-} from 'date-fns';
+import { addDays, intervalToDuration, eachDayOfInterval } from 'date-fns';
 import { useState, useEffect } from 'react';
 import pb from '@/app/(lib)/pocketbase';
 import { useRouter } from 'next/navigation';
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import '@/app/calendar.css';
 
 export const BookingCalendar = ({ post }) => {
   const router = useRouter();

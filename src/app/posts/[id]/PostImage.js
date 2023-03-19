@@ -7,16 +7,16 @@ import {
   Grid,
   Spacer,
   Pagination,
+  useTheme,
 } from '@nextui-org/react';
-import { useState, useEffect } from 'react';
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import { useState } from 'react';
 import pb from '@/app/(lib)/pocketbase';
 import Map from '@/app/(components)/Map';
 import { Location } from 'react-iconly';
 import { BookingCalendar } from './BookingCalendar';
 
 export const PostImage = ({ post }) => {
+  const { theme } = useTheme();
   const picturesList = post.pictures;
   const [imageIndex, setImageIndex] = useState(0);
 
@@ -90,7 +90,10 @@ export const PostImage = ({ post }) => {
                           )
                         }
                         onClick={() => console.log(post.pictures)}
-                        text={post.expand.seller.name.match(/\b\w/g).join('')}
+                        text={
+                          post.expand.seller.name &&
+                          post.expand.seller.name.match(/\b\w/g).join('')
+                        }
                       />
                       <Text h4 style={{ margin: '15px 0px 6px 0px' }}>
                         {post.expand.seller.name}
@@ -105,9 +108,9 @@ export const PostImage = ({ post }) => {
                         <Badge
                           isSquared
                           color="success"
+                          variant="flat"
                           css={{
-                            backgroundColor: '$green200',
-                            color: '$green700',
+                            borderColor: 'transparent',
                           }}
                         >
                           5,6 / 6
@@ -120,7 +123,7 @@ export const PostImage = ({ post }) => {
                     <Card.Body css={{ p: 20 }}>
                       <Location
                         set="curved"
-                        primaryColor="#0A6130"
+                        primaryColor={theme.colors.green600.value}
                         size="large"
                         style={{ margin: '4px' }}
                       />
@@ -137,7 +140,10 @@ export const PostImage = ({ post }) => {
                   </Card>
                 </div>
                 <Spacer y={1.5} />
-                <div className="mapContainer">
+                <div
+                  className="mapContainer"
+                  style={{ backgroundColor: theme.colors.accents3.value }}
+                >
                   <Map
                     address={`${post.streetAddress} ${post.zipcode} ${post.city}`}
                   />

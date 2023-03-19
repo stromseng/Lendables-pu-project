@@ -1,16 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import pb from './(lib)/pocketbase';
 import styles from './Header.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Dropdown, Navbar, User, Text } from '@nextui-org/react';
+import { Dropdown, Button, Navbar, User, Text } from '@nextui-org/react';
 import useLogout from './(hooks)/useLogout';
 import { useRouter } from 'next/navigation';
 import { Plus, Search } from 'react-iconly';
+import { SunIcon } from 'public/SunIcon';
+import { MoonIcon } from 'public/MoonIcon';
+import { ThemeContext } from './Providers';
 
 export default function Header() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
   const logout = useLogout();
   const [username, setUsername] = useState();
   const [avatar, setAvatar] = useState();
@@ -43,14 +47,24 @@ export default function Header() {
   }
 
   return (
-    <Navbar className={styles.navBar}>
+    <Navbar
+      className={styles.navBar}
+      css={{
+        backgroundColor: '$backgroundContrast',
+        $$navbarBlurBackgroundColor: 'transparent',
+      }}
+    >
       <Navbar.Brand>
         <Link href="/">
           <Image
             onPress={(e) => {
               setActivePage(0);
             }}
-            src="/Lendables_light.png"
+            src={
+              theme.type === 'light'
+                ? '/Lendables_light.png'
+                : '/Lendables_dark.png'
+            }
             height={52}
             width={180}
             alt={'logo'}
@@ -69,7 +83,11 @@ export default function Header() {
           <Link href="/">
             <Search
               set="curved"
-              primaryColor="black"
+              primaryColor={
+                activePage === 1
+                  ? theme.theme.colors.green600.value
+                  : theme.theme.colors.foreground.value
+              }
               className={styles.navLink}
             />
             Search
@@ -86,12 +104,29 @@ export default function Header() {
           <Link href="/createad">
             <Plus
               set="curved"
-              primaryColor="black"
+              primaryColor={
+                activePage === 2
+                  ? theme.theme.colors.green600.value
+                  : theme.theme.colors.foreground.value
+              }
               className={styles.navLink}
+
             />
             New post
           </Link>
         </Navbar.Link>
+        <Button
+          light
+          rounded
+          auto
+          icon={
+            theme.type === 'light' ? <MoonIcon filled /> : <SunIcon filled />
+          }
+          onPress={() => {
+            toggleTheme();
+            console.log('Switching theme');
+          }}
+        ></Button>
         {username ? (
           <Dropdown>
             <Navbar.Item>
@@ -100,7 +135,10 @@ export default function Header() {
                   name={username}
                   size="sm"
                   src={avatar}
-                  text={pb.authStore.model.name.match(/\b\w/g).join('')}
+                  text={
+                    pb.authStore.model.name &&
+                    pb.authStore.model.name.match(/\b\w/g).join('')
+                  }
                 />
               </Dropdown.Trigger>
             </Navbar.Item>
@@ -110,6 +148,8 @@ export default function Header() {
                 key == 'profile' &&
                   router.push(`/profile/${pb.authStore.model.id}`);
                 key == 'posts' && router.push(`users/${pb.authStore.model.id}`);
+                (key == 'logout' || key == 'profile' || key == 'posts') &&
+                  setActivePage(0);
               }}
             >
               <Dropdown.Item key="account" css={{ height: '$18' }}>
