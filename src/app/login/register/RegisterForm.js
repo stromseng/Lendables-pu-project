@@ -27,7 +27,7 @@ export default function RegisterForm() {
         console.log(e);
       } else {
         reset();
-        router.push('/posts');
+        router.push('/');
       }
     });
   }
@@ -60,6 +60,7 @@ export default function RegisterForm() {
               bordered
               id="username"
               label="Username"
+              type={'text'}
               helperText={
                 (PBerror?.username && PBerror.username.message) ||
                 errors.username?.message
@@ -76,8 +77,47 @@ export default function RegisterForm() {
             <Input
               clearable
               bordered
+              id="name"
+              label="Full Name"
+              type={'text'}
+              helperText={
+                (PBerror?.name && PBerror.name.message) || errors.name?.message
+              }
+              helperColor={'error'}
+              {...register('name', {
+                required: 'Full Name is required.',
+                maxLength: {
+                  value: 100,
+                  message: 'Full Name cannot be longer than 100 characters.',
+                },
+              })}
+            />
+            <Input
+              clearable
+              bordered
+              id="telephone_number"
+              label="Phone Number"
+              type={'tel'}
+              helperText={
+                (PBerror?.telephone_number &&
+                  PBerror.telephone_number.message) ||
+                errors.telephone_number?.message
+              }
+              helperColor={'error'}
+              {...register('telephone_number', {
+                required: 'Phone Number is required.',
+                maxLength: {
+                  value: 10,
+                  message: 'Not a valid phone number.',
+                },
+              })}
+            />
+            <Input
+              clearable
+              bordered
               id="email"
               label="Email"
+              type={'email'}
               helperText={
                 (PBerror?.email && PBerror.email.message) ||
                 errors.email?.message

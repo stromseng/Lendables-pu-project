@@ -31,7 +31,7 @@ export default function LoginField() {
 
   //Return to post if user already is logged in
   useEffect(() => {
-    pb.authStore.isValid && router.push('/posts');
+    pb.authStore.isValid && router.push('/');
   }, []);
 
   return (
