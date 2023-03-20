@@ -10,11 +10,6 @@ import {
   Spacer,
 } from '@nextui-org/react';
 
-/**
- * Wrapper for all pages that contain a Header, NavBar and have some padding around the content
- */
-//{header && <Typography variant="h1">{header}</Typography>}
-
 const PageLayout = ({ children }) => {
   return (
     <>

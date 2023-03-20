@@ -3,7 +3,7 @@ import pb from 'src/app/(lib)/pocketbase.js';
 export default function usePosts() {
   async function getPosts(sortingBy, categoryFilter, titleFilter, userFilter) {
     const Cfilter = categoryFilter ? `&& category = "${categoryFilter}"` : '';
-    const Nfilter = titleFilter ? `&& title ~ "${titleFilter}"` : '';
+    const Tfilter = titleFilter ? `&& title ~ "${titleFilter}"` : '';
     const Ufilter = userFilter
       ? `seller = "${userFilter}"`
       : `seller != "${pb.authStore.model.id}"`;
@@ -16,7 +16,7 @@ export default function usePosts() {
         : [];
 
     const data = await pb.collection('advertisements').getFullList(200, {
-      filter: `${Ufilter} ${Cfilter} ${Nfilter} `,
+      filter: `${Ufilter} ${Cfilter} ${Tfilter} `,
       expand: 'seller',
       sort: `${
         sortingBy == 'newest'
@@ -40,6 +40,12 @@ export default function usePosts() {
       return bBookings - aBookings;
     });
   }
+  async function getPost(user) {
+    const post = await pb.collection('advertisements').getOne(user, {
+      expand: 'booking(advertisement),seller',
+    });
+    return post;
+  }
 
-  return { getPosts };
+  return { getPosts, getPost };
 }

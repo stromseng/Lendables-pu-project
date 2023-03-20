@@ -14,6 +14,7 @@ import {
 } from '@nextui-org/react';
 import { Search } from 'react-iconly';
 import styles from '@/app/(components)/Post.module.css';
+import { Spa } from '@mui/icons-material';
 
 export default function Posts(props) {
   const { getPosts } = usePosts();
@@ -24,38 +25,39 @@ export default function Posts(props) {
   const [selectedSorting, setSelectedSorting] = React.useState(
     new Set(['newest'])
   );
+  const categories = [
+    '',
+    'Electronics',
+    'Tools',
+    'Cars',
+    'Power Tools',
+    'Hobby',
+    'Other',
+  ];
 
   useEffect(() => {
-    getPosts(Array.from(selectedSorting).at(0), '', '', props.user ?? '').then(
-      (posts) => {
-        setData(posts);
-      }
-    );
+    getPosts(
+      Array.from(selectedSorting).at(0),
+      category,
+      '',
+      props.user ?? ''
+    ).then((posts) => {
+      setData(posts);
+    });
   }, [selectedSorting]);
-
-  async function handleCategoryClick(cat) {
-    try {
-      let filter = '';
-      if (cat !== 'all categories') {
-        filter = `category = "${cat}"`;
-      }
-      const results = await pb.collection('advertisements').getFullList(200, {
-        filter: filter,
-        expand: 'seller',
-        sort: '-created',
-      });
-      setData(results);
-      setCategory(cat);
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+        }}
+      >
         {props.withSearch && (
           <>
+            <Spacer y={1.0} />
             <div style={{ display: 'flex', gap: '1rem' }}>
               <Input
                 bordered
@@ -63,14 +65,19 @@ export default function Posts(props) {
                 onChange={(e) =>
                   getPosts(
                     Array.from(selectedSorting).at(0),
-                    '',
+                    category,
                     e.target.value
                   ).then((posts) => {
                     setData(posts);
                   })
                 }
-                css={{ width: '100%', backgroundColor: 'white' }}
-                contentRight={<Search set="curved" />}
+                css={{ width: '100%', backgroundColor: '$backgroundContrast' }}
+                contentRight={
+                  <Search
+                    set="curved"
+                    primaryColor={theme.colors.gray700.value}
+                  />
+                }
               />
               <Dropdown>
                 <Dropdown.Button
@@ -103,91 +110,29 @@ export default function Posts(props) {
 
             <Spacer y={0.5} />
 
-            <div style={{ display: 'flex', gap: '50px', alignItems: 'center' }}>
-              <Link
-                onClick={() => handleCategoryClick('all categories')}
-                style={{
-                  color:
-                    category === 'all categories'
-                      ? theme.colors.text.value
-                      : theme.colors.green600.value,
-                  cursor: 'pointer',
-                }}
-              >
-                All categories
-              </Link>
-              <Link
-                onClick={() => handleCategoryClick('Electronics')}
-                style={{
-                  color:
-                    category === 'Electronics'
-                      ? theme.colors.text.value
-                      : theme.colors.green600.value,
-                  cursor: 'pointer',
-                }}
-              >
-                Electronics
-              </Link>
-              <Link
-                onClick={() => handleCategoryClick('Tools')}
-                style={{
-                  color:
-                    category === 'Tools'
-                      ? theme.colors.text.value
-                      : theme.colors.green600.value,
-                  cursor: 'pointer',
-                }}
-              >
-                Tools
-              </Link>
-              <Link
-                onClick={() => handleCategoryClick('Cars')}
-                style={{
-                  color:
-                    category === 'Cars'
-                      ? theme.colors.text.value
-                      : theme.colors.green600.value,
-                  cursor: 'pointer',
-                }}
-              >
-                Cars
-              </Link>
-              <Link
-                onClick={() => handleCategoryClick('Power Tools')}
-                style={{
-                  color:
-                    category === 'Power Tools'
-                      ? theme.colors.text.value
-                      : theme.colors.green600.value,
-                  cursor: 'pointer',
-                }}
-              >
-                Power Tools
-              </Link>
-              <Link
-                onClick={() => handleCategoryClick('Hobby')}
-                style={{
-                  color:
-                    category === 'Hobby'
-                      ? theme.colors.text.value
-                      : theme.colors.green600.value,
-                  cursor: 'pointer',
-                }}
-              >
-                Hobby
-              </Link>
-              <Link
-                onClick={() => handleCategoryClick('Other')}
-                style={{
-                  color:
-                    category === 'Other'
-                      ? theme.colors.text.value
-                      : theme.colors.green600.value,
-                  cursor: 'pointer',
-                }}
-              >
-                Other
-              </Link>
+            <div style={{ display: 'flex', gap: '50px', alignSelf: 'center' }}>
+              {categories.map((cat) => (
+                <Link
+                  key={cat}
+                  onClick={() =>
+                    getPosts(Array.from(selectedSorting).at(0), cat, '').then(
+                      (posts) => {
+                        setData(posts);
+                        setCategory(cat);
+                      }
+                    )
+                  }
+                  style={{
+                    color:
+                      category === cat
+                        ? theme.colors.text.value
+                        : theme.colors.green600.value,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {cat === '' ? 'All categories' : cat}
+                </Link>
+              ))}
             </div>
           </>
         )}

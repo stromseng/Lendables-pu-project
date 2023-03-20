@@ -101,7 +101,10 @@ export const PostImage = ({ post }) => {
                             )
                           }
                           onClick={() => console.log(post.pictures)}
-                          text={post.expand.seller.name.match(/\b\w/g).join('')}
+                          text={
+                            post.expand.seller.name &&
+                            post.expand.seller.name.match(/\b\w/g).join('')
+                          }
                         />
                         <Text h4 style={{ margin: '15px 0px 6px 0px' }}>
                           {post.expand.seller.name}
