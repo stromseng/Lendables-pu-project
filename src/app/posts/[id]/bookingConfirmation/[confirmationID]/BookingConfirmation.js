@@ -41,7 +41,7 @@ export const BookingConfirmation = ({ confirmation }) => {
         <Button
           color="success"
           onPress={() => {
-            router.push('/posts');
+            router.push('/');
           }}
         >
           Return to homepage

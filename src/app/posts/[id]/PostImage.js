@@ -25,7 +25,7 @@ export const PostImage = ({ post }) => {
 
   useEffect(() => {
     getAvgUserRating(post.expand.seller.id).then((data) => {
-      console.log('avg rating: ', data, ' for user: ', post.expand.seller.id);
+      // console.log('avg rating: ', data, ' for user: ', post.expand.seller.id);
       setRoundedAvgUserRating(data);
     });
   }, []);
