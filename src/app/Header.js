@@ -8,7 +8,15 @@ import Image from 'next/image';
 import { Dropdown, Button, Navbar, User, Text } from '@nextui-org/react';
 import useLogout from './(hooks)/useLogout';
 import { useRouter } from 'next/navigation';
-import { Plus, Search } from 'react-iconly';
+import {
+  Plus,
+  Search,
+  User as UserIcon,
+  Category,
+  Logout,
+  Buy,
+  Wallet,
+} from 'react-iconly';
 import { SunIcon } from 'public/SunIcon';
 import { MoonIcon } from 'public/MoonIcon';
 import { ThemeContext } from './Providers';
@@ -33,6 +41,11 @@ export default function Header() {
         });
     } catch (error) {}
   };
+
+  const removeListener = pb.authStore.onChange((token, model) => {
+    setUsername(model?.username);
+    updateProfilePicture(pb.authStore.model);
+  });
 
   useEffect(() => {
     setUsername(pb.authStore.model?.username);
@@ -82,7 +95,7 @@ export default function Header() {
         >
           <Link href="/">
             <Search
-              set="curved"
+              set="light"
               primaryColor={
                 activePage === 1
                   ? theme.theme.colors.green600.value
@@ -103,14 +116,13 @@ export default function Header() {
         >
           <Link href="/createpost">
             <Plus
-              set="curved"
+              set="light"
               primaryColor={
                 activePage === 2
                   ? theme.theme.colors.green600.value
                   : theme.theme.colors.foreground.value
               }
               className={styles.navLink}
-
             />
             New post
           </Link>
@@ -119,6 +131,8 @@ export default function Header() {
           light
           rounded
           auto
+          color="success"
+          css={{ color: '$text' }}
           icon={
             theme.type === 'light' ? <MoonIcon filled /> : <SunIcon filled />
           }
@@ -148,7 +162,17 @@ export default function Header() {
                 key == 'profile' &&
                   router.push(`/profile/${pb.authStore.model.id}`);
                 key == 'posts' && router.push(`users/${pb.authStore.model.id}`);
-                (key == 'logout' || key == 'profile' || key == 'posts') &&
+                key == 'purchases' &&
+                  router.push(
+                    `users/${pb.authStore.model.id}/history/purchases`
+                  );
+                key == 'sales' &&
+                  router.push(`users/${pb.authStore.model.id}/history/sales`);
+                (key == 'logout' ||
+                  key == 'profile' ||
+                  key == 'posts' ||
+                  key == 'purchases' ||
+                  key == 'sales') &&
                   setActivePage(0);
               }}
             >
@@ -160,13 +184,64 @@ export default function Header() {
                   {pb.authStore.model.email}
                 </Text>
               </Dropdown.Item>
-              <Dropdown.Item key="profile" aria-label="My Profile">
+              <Dropdown.Item
+                key="profile"
+                aria-label="My Profile"
+                icon={
+                  <UserIcon
+                    set="light"
+                    primaryColor={theme.theme.colors.text.value}
+                  />
+                }
+              >
                 Profile
               </Dropdown.Item>
-              <Dropdown.Item key="posts" withDivider>
+              <Dropdown.Item
+                key="posts"
+                withDivider
+                icon={
+                  <Category
+                    set="light"
+                    primaryColor={theme.theme.colors.text.value}
+                  />
+                }
+              >
                 My posts
               </Dropdown.Item>
-              <Dropdown.Item key="logout" withDivider color={'error'}>
+              <Dropdown.Item
+                key="purchases"
+                withDivider
+                icon={
+                  <Buy
+                    set="light"
+                    primaryColor={theme.theme.colors.text.value}
+                  />
+                }
+              >
+                My purchases
+              </Dropdown.Item>
+              <Dropdown.Item
+                key="sales"
+                icon={
+                  <Wallet
+                    set="light"
+                    primaryColor={theme.theme.colors.text.value}
+                  />
+                }
+              >
+                My sales
+              </Dropdown.Item>
+              <Dropdown.Item
+                key="logout"
+                withDivider
+                color={'error'}
+                icon={
+                  <Logout
+                    set="light"
+                    primaryColor={theme.theme.colors.red700.value}
+                  />
+                }
+              >
                 Log out
               </Dropdown.Item>
             </Dropdown.Menu>

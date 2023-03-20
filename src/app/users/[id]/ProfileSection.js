@@ -98,12 +98,10 @@ export const ProfileSection = ({ user, avgUserRating }) => {
         <User
           name={name}
           src={
-            avatar === ''
-              ? '/defaultAvatar.png'
-              : `http://127.0.0.1:8090/api/files/users/${id}/${avatar}`
+            avatar && `http://127.0.0.1:8090/api/files/users/${id}/${avatar}`
           }
+          text={name && name.match(/\b\w/g).join('')}
           size="xl"
-          color="success"
           description={descriptionContent}
         />
         {pb.authStore.isValid && pb.authStore.model.id != id ? (
