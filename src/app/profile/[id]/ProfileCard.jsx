@@ -31,7 +31,7 @@ export default function ProfileCard({ userRecord }) {
 
     const formData = new FormData();
     formData.append('username', data.username);
-    formData.append('name', data.fullname);
+    formData.append('name', data.name);
     formData.append('telephone_number', data.phone);
     formData.append('password', data.newpw1);
     formData.append('passwordConfirm', data.newpw2);
@@ -131,7 +131,7 @@ export default function ProfileCard({ userRecord }) {
                 type="text"
                 label="Full Name"
                 initialValue={userRecord.name}
-                {...register('fullname', {
+                {...register('name', {
                   required: true,
                 })}
               />
@@ -139,14 +139,11 @@ export default function ProfileCard({ userRecord }) {
             <Grid>
               <Input
                 bordered
-                required={true}
                 disabled
                 type="email"
                 label="Email"
                 initialValue={userRecord.email}
-                {...register('email', {
-                  required: true,
-                })}
+                {...register('email')}
               />
             </Grid>
             <Grid>
