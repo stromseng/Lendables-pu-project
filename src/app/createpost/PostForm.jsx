@@ -42,7 +42,6 @@ export default function PostForm() {
   const [city, setCity] = React.useState('');
   const [zipcode, setZipcode] = React.useState('');
   const { theme } = useTheme();
-  const [fileList, setFileList] = React.useState('');
 
   //Google maps
   const { getCoords } = useCoords();
@@ -240,8 +239,9 @@ export default function PostForm() {
                 <Card variant="bordered">
                   <Card.Body css={{ p: 10 }}>
                     {watch('pictures')?.length >= 1 ? (
-                      Array.from(watch('pictures')).map((picture) => (
+                      Array.from(watch('pictures')).map((picture, index) => (
                         <div
+                          key={index}
                           style={{
                             display: 'flex',
                             justifyContent: 'left',
