@@ -14,15 +14,6 @@ export const ProfileSection = ({ user, avgUserRating }) => {
   const [descriptionContent, setDescriptionContent] =
     useState('No ratings yet');
 
-  useEffect(() => {
-    getPreviousRatingIfExists().then((value) => {
-      setRatingValue(value);
-    });
-    if (avgUserRating != 0) {
-      setDescriptionContent('Average Rating: ' + avgUserRating + ' / 5');
-    }
-  }, []);
-
   async function handleRating(newValue) {
     // if (newValue === null || newValue === 0) {
     //   deletePreviousRatingIfExists();
@@ -88,6 +79,15 @@ export const ProfileSection = ({ user, avgUserRating }) => {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    getPreviousRatingIfExists().then((value) => {
+      setRatingValue(value);
+    });
+    if (avgUserRating != 0) {
+      setDescriptionContent('Average Rating: ' + avgUserRating + ' / 5');
+    }
+  }, []);
 
   return (
     <>
