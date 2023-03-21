@@ -16,12 +16,14 @@ import { Location } from 'react-iconly';
 import { BookingCalendar } from './BookingCalendar';
 import getAvgUserRating from '@/app/(lib)/getAvgUserRating';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export const PostImage = ({ post }) => {
   const { theme } = useTheme();
   const picturesList = post.pictures;
   const [imageIndex, setImageIndex] = useState(0);
   const [roundedAvgUserRating, setRoundedAvgUserRating] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     getAvgUserRating(post.expand.seller.id).then((data) => {
@@ -89,49 +91,54 @@ export const PostImage = ({ post }) => {
                 <Spacer y={0.5} />
                 <Text weight="semibold">Additional info</Text>
                 <div style={{ display: 'flex', gap: '25px' }}>
-                  <Link href={'/users/' + post.expand.seller.id}>
-                    <Card variant="bordered" style={{ width: '100%' }}>
-                      <Card.Body css={{ p: 20 }}>
-                        <Avatar
-                          src={
-                            post.expand.seller.avatar &&
-                            pb.getFileUrl(
-                              post.expand.seller,
-                              post.expand.seller.avatar
-                            )
-                          }
-                          onClick={() => console.log(post.pictures)}
-                          text={
-                            post.expand.seller.name &&
-                            post.expand.seller.name.match(/\b\w/g).join('')
-                          }
-                        />
-                        <Text h4 style={{ margin: '15px 0px 6px 0px' }}>
-                          {post.expand.seller.name}
-                        </Text>
+                  <Card
+                    isPressable
+                    variant="bordered"
+                    style={{ width: '100%' }}
+                    onPress={() => {
+                      router.push('/users/' + post.expand.seller.id);
+                    }}
+                  >
+                    <Card.Body css={{ p: 20 }}>
+                      <Avatar
+                        src={
+                          post.expand.seller.avatar &&
+                          pb.getFileUrl(
+                            post.expand.seller,
+                            post.expand.seller.avatar
+                          )
+                        }
+                        onClick={() => console.log(post.pictures)}
+                        text={
+                          post.expand.seller.name &&
+                          post.expand.seller.name.match(/\b\w/g).join('')
+                        }
+                      />
+                      <Text h4 style={{ margin: '15px 0px 6px 0px' }}>
+                        {post.expand.seller.name}
+                      </Text>
+                      <Text weight="light" style={{ margin: '6px 0px' }}>
+                        +47 {post.expand.seller.telephone_number}
+                      </Text>
+                      <div style={{ display: 'flex', gap: '10px' }}>
                         <Text weight="light" style={{ margin: '6px 0px' }}>
-                          +47 {post.expand.seller.telephone_number}
+                          Average rating:
                         </Text>
-                        <div style={{ display: 'flex', gap: '10px' }}>
-                          <Text weight="light" style={{ margin: '6px 0px' }}>
-                            Average rating:
-                          </Text>
-                          <Badge
-                            isSquared
-                            color="success"
-                            variant="flat"
-                            css={{
-                              borderColor: 'transparent',
-                            }}
-                          >
-                            {roundedAvgUserRating != 0
-                              ? roundedAvgUserRating + '/5'
-                              : 'No ratings'}
-                          </Badge>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Link>
+                        <Badge
+                          isSquared
+                          color="success"
+                          variant="flat"
+                          css={{
+                            borderColor: 'transparent',
+                          }}
+                        >
+                          {roundedAvgUserRating != 0
+                            ? roundedAvgUserRating + '/5'
+                            : 'No ratings'}
+                        </Badge>
+                      </div>
+                    </Card.Body>
+                  </Card>
 
                   <Card variant="bordered" style={{ width: '100%' }}>
                     <Card.Body css={{ p: 20 }}>

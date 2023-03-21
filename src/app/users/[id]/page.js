@@ -4,7 +4,7 @@ import { User } from '@nextui-org/react';
 import { ProfileSection } from './ProfileSection';
 import getAvgUserRating from '@/app/(lib)/getAvgUserRating';
 
-export const revalidate = 1; // revalidate this page every 60 seconds
+export const revalidate = 0; // revalidate this page every 60 seconds
 
 export default async function UserPage({ params }) {
   const user = await pb.collection('users').getOne(params.id);
