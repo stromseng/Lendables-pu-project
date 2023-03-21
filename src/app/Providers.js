@@ -13,6 +13,7 @@ export default function Providers({ children }) {
     type: 'dark',
     theme: {
       colors: {
+        primary: '$green600',
         customBackground: '#222527',
       },
     },
@@ -21,6 +22,7 @@ export default function Providers({ children }) {
     type: 'light',
     theme: {
       colors: {
+        primary: '$green600',
         customBackground: '#ECECEC',
       },
     },
