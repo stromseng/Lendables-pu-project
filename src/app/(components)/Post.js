@@ -1,9 +1,6 @@
 'use client';
-import { maxWidth } from '@mui/system';
+
 import { Card, Badge, Row, Text, Button } from '@nextui-org/react';
-import Image from 'next/image';
-import Link from 'next/link';
-import pb from '../(lib)/pocketbase';
 import styles from '@/app/(components)/Post.module.css';
 import { useRouter } from 'next/navigation';
 
