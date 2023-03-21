@@ -6,11 +6,14 @@ import {
   Container,
   Button,
   Input,
+  Loading,
 } from '@nextui-org/react';
 import pb from 'src/app/(lib)/pocketbase.js';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { EditAvatar } from './EditAvatar';
+import { useState } from 'react';
+import { EditPassword } from './EditPassword';
 
 export default function ProfileCard({ userRecord }) {
   const {
@@ -18,37 +21,67 @@ export default function ProfileCard({ userRecord }) {
     handleSubmit,
     watch,
     formState: { errors },
+    reset,
   } = useForm();
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [initalValue, setInitalValue] = useState({
+    username: userRecord.username,
+    name: userRecord.name,
+    email: userRecord.email,
+    telephone_number: userRecord.telephone_number,
+  });
+  const [helperText, setHelperText] = useState({ text: '', color: 'error' });
+
   const router = useRouter();
-  const validateForm = (data) => {};
-  const onSubmit = (data) => {
-    validateForm(data);
 
-    const formData = new FormData();
-    formData.append('username', data.username);
-    formData.append('name', data.name);
-    formData.append('telephone_number', data.phone);
-    formData.append('password', data.newpw1);
-    formData.append('passwordConfirm', data.newpw2);
-    formData.append('oldPassword', data.oldpw);
-
-    updateProfile(formData);
+  const updateUser = (data) => {
+    setHelperText({ text: '', color: 'error' });
+    setIsLoading(true);
+    pb.collection('users')
+      .update(userRecord.id, data)
+      .then((record) => {
+        setInitalValue({
+          username: record.username,
+          name: record.name,
+          email: record.email,
+          telephone_number: record.telephone_number,
+        });
+        setHelperText({
+          text: 'Successfully updated profile information',
+          color: 'success',
+        });
+        resetFields();
+      })
+      .catch((error) => {
+        setHelperText({ text: 'Something went wrong', color: 'error' });
+        resetFields();
+        reset(initalValue);
+      });
   };
 
-  async function updateProfile(data) {
-    console.log('Updating profile...');
-    console.log('FormData: ', data);
-    const record = await pb.collection('users').update(userRecord.id, data);
-    console.log('Record: ', record);
-    router.refresh();
-  }
+  const resetFields = () => {
+    setIsLoading(false);
+    setTimeout(() => {
+      setHelperText({ text: '', color: 'error' });
+    }, 5000);
+  };
 
   return (
     <Container xs css={{ p: 30 }}>
       <Card css={{ width: 500 }}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Card.Body css={{ gap: 10, justifyContent: 'center', p: 20 }}>
+        <Card.Body
+          css={{
+            gap: 10,
+            justifyContent: 'center',
+            p: 20,
+            '& .nextui-input-helper-text-container': { right: 0 },
+          }}
+        >
+          <form
+            onSubmit={handleSubmit(updateUser)}
+            style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+          >
             <Text h2 css={{ textAlign: 'center' }}>
               Profile Information
             </Text>
@@ -61,7 +94,7 @@ export default function ProfileCard({ userRecord }) {
               required={true}
               type="text"
               label="Username"
-              initialValue={userRecord.username}
+              initialValue={initalValue.username}
               {...register('username', {
                 required: true,
               })}
@@ -71,7 +104,7 @@ export default function ProfileCard({ userRecord }) {
               required={true}
               type="text"
               label="Full Name"
-              initialValue={userRecord.name}
+              initialValue={initalValue.name}
               {...register('name', {
                 required: true,
               })}
@@ -81,8 +114,7 @@ export default function ProfileCard({ userRecord }) {
               bordered
               type="email"
               label="Email"
-              initialValue={userRecord.email}
-              {...register('email')}
+              initialValue={initalValue.email}
               css={{ '& input': { color: '$accents7' } }}
             />
             <Input
@@ -90,38 +122,42 @@ export default function ProfileCard({ userRecord }) {
               required={true}
               type="tel"
               label="Phone"
-              initialValue={userRecord.telephone_number}
-              {...register('phone', {
+              initialValue={initalValue.telephone_number}
+              {...register('telephone_number', {
                 required: true,
               })}
               labelLeft="+47"
             />
             <Spacer y={0.5} />
-            <Card.Divider />
-            <Text h3>Change Password</Text>
-            <Input.Password
-              bordered
-              type="password"
-              label="Old Password"
-              {...register('oldpw')}
-            />
-            <Input.Password
-              bordered
-              type="password"
-              label="New Password"
-              {...register('newpw1')}
-            />
-            <Input.Password
-              bordered
-              type="password"
-              label="New Password (again)"
-              {...register('newpw2')}
-            />
-            <Spacer y={2} />
-            <Button type="submit">Save Changes</Button>
-          </Card.Body>
-          <Card.Divider />
-        </form>
+            <Button
+              color="success"
+              disabled={
+                (watch('username') == initalValue.username &&
+                  watch('name') == initalValue.name &&
+                  watch('telephone_number') == initalValue.telephone_number) ||
+                isLoading
+              }
+              type="submit"
+            >
+              {isLoading ? (
+                <Loading type="points" color="currentColor" size="sm" />
+              ) : (
+                'Save changes'
+              )}
+            </Button>
+            {helperText.text && (
+              <Text
+                size="$sm"
+                weight="light"
+                color={helperText.color}
+                css={{ textAlign: 'center', marginTop: 0 }}
+              >
+                {helperText.text}
+              </Text>
+            )}
+          </form>
+          <EditPassword userRecord={userRecord} />
+        </Card.Body>
       </Card>
     </Container>
   );

@@ -17,7 +17,7 @@ import {
 } from '@nextui-org/react';
 
 //Import pocketbase
-import pb from '@lib/pocketbase';
+import pb from '../(lib)/pocketbase';
 
 //React Hook Form
 import { useForm } from 'react-hook-form';

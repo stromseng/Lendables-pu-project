@@ -1,5 +1,4 @@
 import { History } from './History';
-import pb from '@/lib/pocketbase';
 import useBooking from '@/app/(hooks)/useBookings';
 
 export const revalidate = 0;
