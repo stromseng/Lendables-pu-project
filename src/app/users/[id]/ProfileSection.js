@@ -15,6 +15,9 @@ export const ProfileSection = ({ user, avgUserRating }) => {
     useState('No ratings yet');
 
   useEffect(() => {
+    getPreviousRatingIfExists().then((value) => {
+      setRatingValue(value);
+    });
     if (avgUserRating != 0) {
       setDescriptionContent('Average Rating: ' + avgUserRating + ' / 5');
     }
@@ -33,17 +36,22 @@ export const ProfileSection = ({ user, avgUserRating }) => {
     };
     //Delete previous rating if exists
     await deletePreviousRatingIfExists();
-    try {
-      await pb.collection('ratings').create(rating);
-      setRatingFeedback('Rating submitted');
-      setIsOpen(true);
-      //wait 1 second before closing popover
-      setTimeout(() => {
-        setIsOpen(false);
-      }, 1000);
-    } catch (error) {
-      console.log(error);
-      setRatingFeedback('Error submitting rating');
+    if (newValue != null) {
+      try {
+        await pb.collection('ratings').create(rating);
+        setRatingFeedback('Rating submitted');
+        setIsOpen(true);
+        //wait 1 second before closing popover
+        setTimeout(() => {
+          setIsOpen(false);
+        }, 1000);
+      } catch (error) {
+        console.log(error);
+        setRatingFeedback('Error submitting rating');
+        setIsOpen(true);
+      }
+    } else {
+      setRatingFeedback('Rating deleted');
       setIsOpen(true);
     }
   }
@@ -81,18 +89,13 @@ export const ProfileSection = ({ user, avgUserRating }) => {
     }
   }
 
-  useEffect(() => {
-    getPreviousRatingIfExists().then((value) => {
-      setRatingValue(value);
-    });
-  }, []);
-
   return (
     <>
       <div
         style={{
           display: 'flex',
           margin: '20px 0 20px 0',
+          justifyContent: 'space-between',
         }}
       >
         <User
@@ -106,23 +109,30 @@ export const ProfileSection = ({ user, avgUserRating }) => {
           color="success"
           description={descriptionContent}
         />
-        {pb.authStore.isValid && pb.authStore.model.id != id ? (
-          <Popover isOpen={isOpen} onOpenChange={setIsOpen}>
-            <Popover.Trigger>
-              <Rating
-                style={{ alignSelf: 'center' }}
-                name="simple-controlled"
-                value={ratingValue}
-                onChange={(event, newValue) => {
-                  handleRating(newValue);
-                }}
-              />
-            </Popover.Trigger>
-            <Popover.Content>
-              <Text css={{ p: '' }}>{ratingFeedback}</Text>
-            </Popover.Content>
-          </Popover>
-        ) : null}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          {pb.authStore.isValid && pb.authStore.model.id != id && (
+            <>
+              <Text size="$sm" wight="light">
+                Rate user:
+              </Text>
+              <Popover isOpen={isOpen} onOpenChange={setIsOpen} color="success">
+                <Popover.Trigger>
+                  <Rating
+                    style={{ alignSelf: 'center' }}
+                    name="simple-controlled"
+                    value={ratingValue}
+                    onChange={(event, newValue) => {
+                      handleRating(newValue);
+                    }}
+                  />
+                </Popover.Trigger>
+                <Popover.Content>
+                  <Text css={{ m: 10 }}>{ratingFeedback}</Text>
+                </Popover.Content>
+              </Popover>
+            </>
+          )}
+        </div>
       </div>
     </>
   );

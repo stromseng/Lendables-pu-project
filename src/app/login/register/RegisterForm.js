@@ -159,7 +159,7 @@ export default function RegisterForm() {
                 errors.passwordConfirm?.message
               }
               helperColor={'error'}
-              {...register('passwordConfirm.', {
+              {...register('passwordConfirm', {
                 required: 'You must confirm the password.',
                 validate: {
                   passwordMatch: (value) =>

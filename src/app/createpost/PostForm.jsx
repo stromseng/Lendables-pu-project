@@ -7,13 +7,14 @@ import {
   Button,
   Card,
   Container,
-  Grid,
+  Dropdown,
   Input,
   Spacer,
   Text,
+  Textarea,
+  useTheme,
+  Image,
 } from '@nextui-org/react';
-
-import { Dropdown } from '@nextui-org/react';
 
 //Import pocketbase
 import pb from '@lib/pocketbase';
@@ -23,6 +24,8 @@ import { useForm } from 'react-hook-form';
 
 //Custom hooks
 import useCoords from '../(hooks)/useCoords';
+
+import { PaperPlus } from 'react-iconly';
 
 function getFirstItemOfSet(set) {
   for (let item of set) {
@@ -38,6 +41,8 @@ export default function PostForm() {
   const [selectedCategory, setSelectedCategory] = React.useState('Category');
   const [city, setCity] = React.useState('');
   const [zipcode, setZipcode] = React.useState('');
+  const { theme } = useTheme();
+  const [fileList, setFileList] = React.useState('');
 
   //Google maps
   const { getCoords } = useCoords();
@@ -50,6 +55,7 @@ export default function PostForm() {
     handleSubmit,
     watch,
     formState: { errors },
+    resetField,
   } = useForm();
 
   function retriveZipaddress(zipcode) {
@@ -124,158 +130,243 @@ export default function PostForm() {
       });
   };
 
+  //Needed in order to check for zipcode error, as well as retrive zipcode area name from Google Geocode API
+  const customZipcodeRegister = register('zipcode', {
+    required: 'Zipcode is required.',
+    pattern: {
+      value: /^[0-9]{4}$/i,
+      message: 'Not a valid zipcode.',
+    },
+  });
+
+  const customPictureRegister = register('pictures');
+
   return (
     <>
-      <Container xs>
+      <Container xs css={{ p: 30 }}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Card>
-            <Card.Body>
-              <Grid.Container gap={2} justify="center">
+          <Card css={{ width: 500 }}>
+            <Card.Body
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '25px',
+                padding: '25px',
+              }}
+            >
+              <Text
+                h2
+                css={{
+                  as: 'center',
+                  m: 0,
+                }}
+              >
+                Create Post
+              </Text>
+              <Input
+                clearable
+                bordered
+                fullWidth
+                size="lg"
+                label="Title"
+                {...register('title', {
+                  required: 'Title is required.',
+                })}
+                helperText={errors.title?.message}
+                helperColor={'error'}
+              ></Input>
+              <div>
                 <Text
-                  h2
                   css={{
-                    as: 'center',
+                    marginTop: '0.2rem',
+                    marginBottom: '0.375rem',
                   }}
                 >
-                  {' '}
-                  Create Post
+                  Category
                 </Text>
-                <Grid xs={12}>
-                  <Input
-                    {...register('title')}
-                    clearable
-                    bordered
-                    fullWidth
-                    size="lg"
-                    label="Title"
-                    required
-                  ></Input>
-                </Grid>
-                <Grid xs={12} type="flex" direction="column">
-                  <Text
-                    css={{
-                      marginBottom: '0.375rem',
-                    }}
-                  >
-                    Category
-                  </Text>
-                  <Dropdown>
-                    <Dropdown.Button
-                      color={'success'}
-                      flat
-                      css={{
-                        width: '100%',
-                      }}
-                    >
-                      {selectedCategory}
-                    </Dropdown.Button>
-                    <Dropdown.Menu
-                      aria-label="Single selection actions"
-                      selectionMode="single"
-                      disallowEmptySelection
-                      selectedKeys={selectedCategory}
-                      onSelectionChange={setSelectedCategory}
-                    >
-                      <Dropdown.Item key="Electronics">
-                        Electronics
-                      </Dropdown.Item>
-                      <Dropdown.Item key="Tools">Tools</Dropdown.Item>
-                      <Dropdown.Item key="Cars">Cars</Dropdown.Item>
-                      <Dropdown.Item key="Power Tools">
-                        Power Tools
-                      </Dropdown.Item>
-                      <Dropdown.Item key="Hobby">Hobby</Dropdown.Item>
-                      <Dropdown.Item key="Other">Other</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Grid>
-                <Grid xs={12}>
-                  <Input
-                    {...register('description')}
-                    clearable
-                    bordered
-                    fullWidth
-                    size="lg"
-                    label="Description"
-                  ></Input>
-                </Grid>
-                <Grid xs={12}>
-                  <Input
-                    {...register('price')}
-                    clearable
-                    bordered
-                    fullWidth
-                    size="lg"
-                    label="Price"
-                    placeholder="Kr."
-                  ></Input>
-                </Grid>
-                <Grid xs={12}>
-                  <Input
-                    type="file"
-                    multiple
-                    label="Upload images"
-                    {...register('pictures')}
-                  ></Input>
-                </Grid>
-                <Grid xs={12}>
-                  <Input
-                    {...register('phone')}
-                    clearable
-                    bordered
-                    fullWidth
-                    size="lg"
-                    label="Phone Number"
-                  ></Input>
-                </Grid>
-                <Grid xs={12}>
-                  <Input
-                    {...register('email')}
-                    clearable
-                    bordered
-                    fullWidth
-                    size="lg"
-                    label="Email"
-                  ></Input>
-                </Grid>
-                <Grid xs={12}>
-                  <Input
-                    {...register('streetAddress')}
-                    clearable
-                    bordered
-                    fullWidth
-                    size="lg"
-                    label="Street Address"
-                  ></Input>
-                </Grid>
-                <Grid xs={12}>
-                  <Input
-                    {...register('zipcode')}
-                    clearable
-                    bordered
-                    fullWidth
-                    size="lg"
-                    label="Zipcode"
-                    onChange={(e) => {
-                      retriveZipaddress(e.target.value);
-                    }}
-                  ></Input>
-                  <p id="city" name="city">
-                    {city}
-                  </p>
-                </Grid>
-                <Grid xs={12}>
-                  <Button
+                <Dropdown>
+                  <Dropdown.Button
                     color={'success'}
-                    type="submit"
+                    flat
                     css={{
                       width: '100%',
                     }}
                   >
-                    Create Post
-                  </Button>
-                </Grid>
-              </Grid.Container>
+                    {selectedCategory}
+                  </Dropdown.Button>
+                  <Dropdown.Menu
+                    aria-label="Single selection actions"
+                    selectionMode="single"
+                    disallowEmptySelection
+                    selectedKeys={selectedCategory}
+                    onSelectionChange={setSelectedCategory}
+                  >
+                    <Dropdown.Item key="Electronics">Electronics</Dropdown.Item>
+                    <Dropdown.Item key="Tools">Tools</Dropdown.Item>
+                    <Dropdown.Item key="Cars">Cars</Dropdown.Item>
+                    <Dropdown.Item key="Power Tools">Power Tools</Dropdown.Item>
+                    <Dropdown.Item key="Hobby">Hobby</Dropdown.Item>
+                    <Dropdown.Item key="Other">Other</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
+              <Textarea
+                clearable
+                bordered
+                fullWidth
+                size="lg"
+                label="Description"
+                {...register('description', {
+                  required: 'Description is required.',
+                })}
+                helperText={errors.description?.message}
+                helperColor={'error'}
+              ></Textarea>
+              <Input
+                clearable
+                bordered
+                fullWidth
+                size="lg"
+                label="Price"
+                placeholder="Kr."
+                {...register('price', {
+                  required: 'Price is required.',
+                })}
+                helperText={errors.price?.message}
+                helperColor={'error'}
+              ></Input>
+              <div>
+                <Text>Pictures</Text>
+                <Card variant="bordered">
+                  <Card.Body css={{ p: 10 }}>
+                    {watch('pictures')?.length >= 1 ? (
+                      Array.from(watch('pictures')).map((picture) => (
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'left',
+                            alignItems: 'center',
+                            gap: '20px',
+                            margin: '7px',
+                          }}
+                        >
+                          <div style={{ height: '50px', width: '50px' }}>
+                            <Image
+                              src={URL.createObjectURL(picture)}
+                              alt="Default Image"
+                              objectFit
+                              width={50}
+                              height={50}
+                              style={{ borderRadius: '15px' }}
+                              css={{ m: 0, marginInline: 0, display: '' }}
+                            />
+                          </div>
+                          <Text size="$sm" weight="light" css={{ m: 0 }}>
+                            {picture.name}
+                          </Text>
+                        </div>
+                      ))
+                    ) : (
+                      <Text
+                        size="$sm"
+                        weight="light"
+                        css={{ textAlign: 'center' }}
+                      >
+                        No pictures uploaded
+                      </Text>
+                    )}
+                  </Card.Body>
+                </Card>
+                <Spacer y={1} />
+                <label class="custom-file-upload">
+                  <input
+                    {...customPictureRegister}
+                    type="file"
+                    multiple
+                    onChange={(e) => {
+                      customPictureRegister.onChange(e);
+                    }}
+                  />
+                  <PaperPlus
+                    set="bold"
+                    primaryColor={theme.colors.green600.value}
+                  />
+                  <Text
+                    b
+                    size={'$sm'}
+                    css={{ color: '$green600', whiteSpace: 'nowrap' }}
+                  >
+                    Upload pictures
+                  </Text>
+                </label>
+              </div>
+
+              <Input
+                {...register('phone')}
+                clearable
+                bordered
+                fullWidth
+                size="lg"
+                label="Phone Number"
+                labelLeft="+47"
+              ></Input>
+              <Input
+                {...register('email')}
+                clearable
+                bordered
+                fullWidth
+                size="lg"
+                label="Email"
+              ></Input>
+              <Input
+                clearable
+                bordered
+                fullWidth
+                size="lg"
+                label="Street Address"
+                {...register('streetAddress', {
+                  required: 'Street Address is required.',
+                })}
+                helperText={errors.streetAddress?.message}
+                helperColor={'error'}
+              ></Input>
+              <div style={{ display: 'flex', gap: '15px' }}>
+                <Input
+                  clearable
+                  bordered
+                  fullWidth
+                  size="lg"
+                  label="Zipcode"
+                  {...customZipcodeRegister}
+                  helperText={errors.zipcode?.message}
+                  helperColor={'error'}
+                  onChange={(e) => {
+                    customZipcodeRegister.onChange(e);
+                    retriveZipaddress(e.target.value);
+                  }}
+                ></Input>
+                <Input
+                  readOnly
+                  fullWidth
+                  size="lg"
+                  value={city}
+                  label="City"
+                  css={{
+                    $$inputColor: theme.colors.accents1.value,
+                    '& input': { color: '$accents7' },
+                  }}
+                ></Input>
+              </div>
+              <Spacer y={0.2} />
+              <Button
+                color={'success'}
+                type="submit"
+                css={{
+                  width: '100%',
+                }}
+              >
+                Create Post
+              </Button>
             </Card.Body>
           </Card>
         </form>

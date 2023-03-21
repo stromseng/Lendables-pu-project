@@ -23,3 +23,28 @@ main {
   display: flex;
   flex-direction: column;
 }
+
+.fileUpload{
+    color: green;
+}
+
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: 2px solid var(--nextui-colors-green600);
+    border-radius: 13px;
+    display: flex;
+    padding: 6px 12px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    background-position: center;
+    transition: background 0.8s;
+  }
+
+.custom-file-upload:active {
+    background-color:  var(--nextui-colors-green50);
+    background-size: 100%;
+    transition: background 0s;
+  }
