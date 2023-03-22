@@ -1,6 +1,5 @@
 import Posts from '@/app/(components)/Posts';
 import pb from '@/app/(lib)/pocketbase';
-import { User } from '@nextui-org/react';
 import { ProfileSection } from './ProfileSection';
 import getAvgUserRating from '@/app/(lib)/getAvgUserRating';
 

@@ -14,7 +14,6 @@ import {
 } from '@nextui-org/react';
 import { Search } from 'react-iconly';
 import styles from '@/app/(components)/Post.module.css';
-import { Spa } from '@mui/icons-material';
 
 export default function Posts(props) {
   const { getPosts } = usePosts();

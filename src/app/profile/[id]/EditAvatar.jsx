@@ -62,14 +62,13 @@ export const EditAvatar = ({ userRecord }) => {
           gap: '15px',
         }}
       >
-        <label class="custom-file-upload" style={{ width: '100%' }}>
+        <label className="custom-file-upload" style={{ width: '100%' }}>
           <input
             type="file"
             onChange={(e) => {
               console.log(e.target.files.item(0));
               uploadAvatar(e.target.files.item(0));
             }}
-            s
           />
           <PaperPlus set="bold" primaryColor={theme.colors.green600.value} />
           <Text
