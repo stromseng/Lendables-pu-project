@@ -118,7 +118,7 @@ export const PostImage = ({ post }) => {
                         {post.expand.seller.name}
                       </Text>
                       <Text weight="light" style={{ margin: '6px 0px' }}>
-                        +47 {post.expand.seller.telephone_number}
+                        +47 {post.phone || post.expand.seller.telephone_number}
                       </Text>
                       <div style={{ display: 'flex', gap: '10px' }}>
                         <Text weight="light" style={{ margin: '6px 0px' }}>

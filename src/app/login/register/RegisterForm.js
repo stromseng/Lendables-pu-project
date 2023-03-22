@@ -2,7 +2,15 @@
 
 import styles from 'src/app/login/register/RegisterForm.module.css';
 import { useForm } from 'react-hook-form';
-import { Button, Card, Input, Loading, Spacer, Text } from '@nextui-org/react';
+import {
+  Button,
+  Card,
+  Container,
+  Input,
+  Loading,
+  Spacer,
+  Text,
+} from '@nextui-org/react';
 import useRegister from '@/app/(hooks)/useRegister';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -32,16 +40,15 @@ export default function RegisterForm() {
     });
   }
   return (
-    <>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          margin: 'auto',
-          minWidth: '350px',
-        }}
-      >
+    <Container
+      style={{
+        margin: 'auto',
+        minWidth: '350px',
+        maxWidth: '500px',
+        padding: '30px',
+      }}
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Card>
           <Card.Body
             className={styles.registerForm}
@@ -95,6 +102,7 @@ export default function RegisterForm() {
             <Input
               clearable
               bordered
+              labelLeft="+47"
               id="telephone_number"
               label="Phone Number"
               type={'tel'}
@@ -179,6 +187,6 @@ export default function RegisterForm() {
           </Card.Body>
         </Card>
       </form>
-    </>
+    </Container>
   );
 }

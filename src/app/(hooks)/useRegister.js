@@ -8,6 +8,7 @@ export default function useRegister() {
 
   async function registerUser(data) {
     setLoading(true);
+    data.emailVisibility = true;
     try {
       const response = await pb.collection('users').create(data);
       login({ email: data.email, password: data.password });
