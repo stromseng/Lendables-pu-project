@@ -142,9 +142,9 @@ export default function PostForm() {
 
   return (
     <>
-      <Container xs css={{ p: 30 }}>
+      <Container xs css={{ p: 30, width: 500 }}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Card css={{ width: 500 }}>
+          <Card css={{ width: '100%' }}>
             <Card.Body
               style={{
                 display: 'flex',
