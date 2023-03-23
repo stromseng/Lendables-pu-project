@@ -45,35 +45,42 @@ export const PostImage = ({ post }) => {
         >
           <Card css={{ w: '100%', h: '1500px' }}>
             <Card.Body css={{ p: 0, maxW: '100%' }}>
-              <Card.Image
-                src={
-                  post.pictures.length != 0
-                    ? `http://127.0.0.1:8090/api/files/${post.collectionName}/${post.id}/${post.pictures[imageIndex]}`
-                    : '/tool.jpeg'
-                }
-                objectFit="cover"
-                width="100%"
-                height="100%"
-                style={{ display: 'relative' }}
-              />
-              {post.pictures.length && post.pictures.length > 1 && (
-                <Pagination
-                  loop
-                  onlyDots
-                  color="success"
-                  total={post.pictures.length}
-                  initialPage={6}
-                  onChange={(page) => {
-                    setImageIndex(page - 1);
-                  }}
-                  size="xl"
-                  style={{
-                    alignSelf: 'center',
-                    marginTop: '60%',
-                    position: 'absolute',
-                  }}
+              <div
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '500px',
+                }}
+              >
+                <Card.Image
+                  src={
+                    post.pictures.length != 0
+                      ? `http://127.0.0.1:8090/api/files/${post.collectionName}/${post.id}/${post.pictures[imageIndex]}`
+                      : '/tool.jpeg'
+                  }
+                  objectFit="cover"
+                  width="100%"
+                  height="100%"
                 />
-              )}
+                {post.pictures.length && post.pictures.length > 1 && (
+                  <Pagination
+                    loop
+                    onlyDots
+                    color="success"
+                    total={post.pictures.length}
+                    initialPage={6}
+                    onChange={(page) => {
+                      setImageIndex(page - 1);
+                    }}
+                    size="xl"
+                    style={{
+                      position: 'absolute',
+                      bottom: '20px',
+                      left: '40%',
+                    }}
+                  />
+                )}
+              </div>
               <div style={{ padding: '20px' }}>
                 <Badge>{post.category}</Badge>
                 <Spacer y={0.5} />
