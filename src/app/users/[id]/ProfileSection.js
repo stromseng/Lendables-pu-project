@@ -1,10 +1,10 @@
 'use client';
-import { User } from '@nextui-org/react';
+import { User, useTheme } from '@nextui-org/react';
 import Rating from '@mui/material/Rating';
 import { useState, useEffect } from 'react';
 import { Popover, Text, Badge } from '@nextui-org/react';
 import pb from '@/app/(lib)/pocketbase';
-import { useRouter } from 'next/navigation';
+import getAvgUserRating from '@/app/(lib)/getAvgUserRating';
 
 export const ProfileSection = ({ user, avgUserRating }) => {
   const { name, avatar, id } = user;
@@ -13,11 +13,9 @@ export const ProfileSection = ({ user, avgUserRating }) => {
   const [ratingFeedback, setRatingFeedback] = useState('');
   const [descriptionContent, setDescriptionContent] =
     useState('No ratings yet');
+  const { theme } = useTheme();
 
   async function handleRating(newValue) {
-    // if (newValue === null || newValue === 0) {
-    //   deletePreviousRatingIfExists();
-    // }
     setRatingValue(newValue);
     const rating = {
       userGivingRating: pb.authStore.model.id,
@@ -45,6 +43,10 @@ export const ProfileSection = ({ user, avgUserRating }) => {
       setRatingFeedback('Rating deleted');
       setIsOpen(true);
     }
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 5000);
+    updateRating();
   }
 
   async function deletePreviousRatingIfExists() {
@@ -53,9 +55,8 @@ export const ProfileSection = ({ user, avgUserRating }) => {
         filter: `userRated = "${id}" && userGivingRating = "${pb.authStore.model.id}"`,
       });
       if (records.length > 0) {
-        records.forEach((record) => {
-          pb.collection('ratings').delete(record.id);
-        });
+        for (const record of records)
+          await pb.collection('ratings').delete(record.id);
       }
     } catch (error) {
       console.log(error);
@@ -78,6 +79,14 @@ export const ProfileSection = ({ user, avgUserRating }) => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async function updateRating() {
+    getAvgUserRating(id).then((data) => {
+      setDescriptionContent(
+        data == 0 ? 'No ratings yet' : 'Average Rating: ' + data + ' / 5'
+      );
+    });
   }
 
   useEffect(() => {
@@ -121,6 +130,11 @@ export const ProfileSection = ({ user, avgUserRating }) => {
                     value={ratingValue}
                     onChange={(event, newValue) => {
                       handleRating(newValue);
+                    }}
+                    sx={{
+                      '& .MuiRating-iconEmpty': {
+                        color: theme.colors.gray600.value,
+                      },
                     }}
                   />
                 </Popover.Trigger>

@@ -17,6 +17,7 @@ export default async function UserPage({ params }) {
           color: 'lightgrey',
           height: '1px',
           width: '1200px',
+          margin: '10px 0px 30px 0px',
         }}
       />
       <Posts user={user.id} withSearch={false} />
