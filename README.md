@@ -1,4 +1,7 @@
-# README
+# Lendables
+Lendables is a web app for lending and borrowing items. It's built with NextJS and NextUI. The backend is built with Pocketbase.
+
+![b84b5bcffb31f941d1efd4373b6624c59e0e438c-1257x1100](https://github.com/user-attachments/assets/e1ae907b-3ba3-4595-aaff-49f6739e0afd)
 
 ## Getting Started
 
